@@ -1,4 +1,4 @@
-package com.example.readmangaapp.screens
+package com.example.readmangaapp.presentation.screens.Profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.readmangaapp.R
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
 }
