@@ -8,28 +8,28 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.readmangaapp.presentation.screens.Search.SearchFragment"
+        android:name="com.example.readmangaapp.presentation.screens.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search"/>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.readmangaapp.presentation.screens.Profile.ProfileFragment"
+        android:name="com.example.readmangaapp.presentation.screens.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/catalogFragment"
-        android:name="com.example.readmangaapp.presentation.screens.Catalog.CatalogFragment"
+        android:name="com.example.readmangaapp.presentation.screens.catalog.CatalogFragment"
         tools:layout="@layout/fragment_catalog">
     </fragment>
 
     <fragment
         android:id="@+id/readerFragment"
-        android:name="com.example.readmangaapp.presentation.screens.Reader.ReaderFragment"
+        android:name="com.example.readmangaapp.presentation.screens.reader.ReaderFragment"
         android:label="ReaderFragment"
         tools:layout="@layout/fragment_reader"/>
     <fragment
         android:id="@+id/descriptionFragment"
-        android:name="com.example.readmangaapp.presentation.screens.Description.DescriptionFragment"
+        android:name="com.example.readmangaapp.presentation.screens.description.DescriptionFragment"
         android:label="DescriptionFragment"
         tools:layout="@layout/fragment_description">
     </fragment>
