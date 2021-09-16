@@ -1,15 +1,16 @@
-package com.example.readmangaapp.presentation.screens.profile
+package com.example.readmangaapp.screens.reader
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.readmangaapp.R
+import dagger.hilt.android.AndroidEntryPoint
 
-class ProfileFragment : Fragment(R.layout.fragment_profile) {
+@AndroidEntryPoint
+class ReaderFragment : Fragment(){
 
-    private val profileViewModel = ProfileViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
 }

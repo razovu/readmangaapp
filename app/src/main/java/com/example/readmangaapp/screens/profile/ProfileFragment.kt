@@ -1,18 +1,16 @@
-package com.example.readmangaapp.presentation.screens.catalog
+package com.example.readmangaapp.screens.profile
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.readmangaapp.R
+import dagger.hilt.android.AndroidEntryPoint
 
-class CatalogFragment : Fragment(R.layout.fragment_catalog){
+@AndroidEntryPoint
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
-    private val catalogViewModel = CatalogViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 }
