@@ -14,7 +14,7 @@ data class Manga(
 
     val description: String = "",
 
-    val volumes: List<Volume> = listOf(),
+    val volumes: String = "",
 
     val info: String = "",
 
@@ -26,4 +26,4 @@ data class Manga(
 
     val lastReadVolumeUrl: String = ""
 )
-data class Volume( val volName: String, val volUrl: String)
+//data class Volume( val volName: String, val volUrl: String)

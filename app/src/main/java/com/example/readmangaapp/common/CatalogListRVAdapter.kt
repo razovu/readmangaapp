@@ -36,7 +36,7 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
 
         fun bind(manga: Manga) {
             Glide.with(itemView.context)
-                .load(manga.img.toInt())
+                .load(manga.img)
                 .into(itemView.findViewById(R.id.catalog_item_img))
         }
 

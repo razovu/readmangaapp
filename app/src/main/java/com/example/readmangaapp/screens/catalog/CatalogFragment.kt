@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readmangaapp.MainActivity
@@ -16,10 +18,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CatalogFragment : Fragment(R.layout.fragment_catalog){
 
+    private val catalogViewModel by viewModels<CatalogViewModel>()
     private val adapter = CatalogListRVAdapter()
     private lateinit var catalogRecyclerView: RecyclerView
 
-    private val mockList = mutableListOf(Manga(R.drawable.ic_launcher_foreground.toString()))
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +38,11 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog){
 
         catalogRecyclerView.adapter = adapter
         catalogRecyclerView.layoutManager = GridLayoutManager(activity, spanCount)
-        adapter.set(mockList)
+
+        catalogViewModel.manga.observe(viewLifecycleOwner, {
+//            it.let { adapter.set(it) }
+            adapter.set(it)
+        })
     }
 
 }
