@@ -1,4 +1,4 @@
-package com.example.readmangaapp.domain.local
+package com.example.readmangaapp.data.profile
 
 import androidx.room.*
 import com.example.readmangaapp.data.Manga
@@ -16,7 +16,7 @@ interface ProfileDao {
     fun getByMangaUrl(url: String): Manga
 
     @Query("SELECT * FROM Manga WHERE favorite = :isFavorite")
-    fun getFavorites(isFavorite: Boolean = true): Manga
+    fun getFavorites(isFavorite: Boolean = true): List<Manga>
 
     @Insert
     fun insert(manga: Manga)

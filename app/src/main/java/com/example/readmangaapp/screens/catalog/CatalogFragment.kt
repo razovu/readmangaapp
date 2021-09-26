@@ -1,18 +1,12 @@
 package com.example.readmangaapp.screens.catalog
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.readmangaapp.MainActivity
 import com.example.readmangaapp.R
-import com.example.readmangaapp.data.Manga
-import com.example.readmangaapp.common.CatalogListRVAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.example.readmangaapp.domain.local
+package com.example.readmangaapp.data.profile
 
 import javax.inject.Inject
 

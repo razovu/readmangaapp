@@ -1,4 +1,4 @@
-package com.example.readmangaapp.domain.network
+package com.example.readmangaapp.data.manga
 
 import com.example.readmangaapp.data.Manga
 import org.jsoup.Jsoup
@@ -26,11 +26,13 @@ class SiteContentParser {
             val ttl = element.select("img[src]").eq(i).attr("alt").substringBefore("(")
             val linkImage = element.select("img[src]").eq(i).attr("data-original")
             val linkManga = element.select("h3").select("a").eq(i).attr("href")
+            val rate = element.select(".star-rate").select(".rating").eq(i).attr("title")
             listManga.add(
                 Manga(
                     img = linkImage,
                     name = ttl,
-                    url = linkManga
+                    url = linkManga,
+                    rate = rate
                 )
             )
         }

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.readmangaapp.data.Manga
-import com.example.readmangaapp.domain.network.SiteContentParser
+import com.example.readmangaapp.data.manga.SiteContentParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class CatalogViewModel @Inject constructor(): ViewModel() {
     }
 
 
-    fun updateCatalogList() {
+    private fun updateCatalogList() {
         offSet += 70
         viewModelScope.launch(Dispatchers.Default) {
             val list = SiteContentParser().loadMangaList(offSet)

@@ -1,13 +1,21 @@
-package com.example.readmangaapp.common
+package com.example.readmangaapp.screens.catalog
 
 import android.annotation.SuppressLint
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.readmangaapp.R
 import com.example.readmangaapp.data.Manga
+
 
 class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogViewHolder>() {
 
@@ -35,9 +43,21 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
     inner class CatalogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(manga: Manga) {
+
+            val img = itemView.findViewById<ImageView>(R.id.catalog_item_img)
+            val name = itemView.findViewById<TextView>(R.id.catalog_item_name)
+            val rate = itemView.findViewById<TextView>(R.id.catalog_item_rate)
+
             Glide.with(itemView.context)
                 .load(manga.img)
-                .into(itemView.findViewById(R.id.catalog_item_img))
+                .into(img)
+            name.text = manga.name
+            rate.text = manga.rate.substring(0..2)
+
+            itemView.setOnClickListener {
+                val bundle: Bundle = bundleOf("url" to manga.url)
+                it.findNavController().navigate(R.id.descriptionFragment, bundle)
+            }
         }
 
     }
