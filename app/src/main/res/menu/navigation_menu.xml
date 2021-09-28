@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/searchFragment"
-        android:title="@string/menu_search"
-        android:icon="@drawable/ic_search" />
+        android:title="@string/news"
+        android:icon="@drawable/ic_news" />
 
     <item android:id="@+id/catalogFragment"
         android:title="@string/menu_catalog"

@@ -47,14 +47,27 @@
                     android:layout_marginStart="4dp"
                     app:drawableStartCompat="@drawable/ic_rate" />
 
+                <ImageSwitcher
+                    android:id="@+id/_catalog_item_fav_switcher"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_gravity="end">
+
                 <ImageView
 
                     android:id="@+id/catalog_item_favorite"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_marginEnd="4dp"
-                    android:src="@drawable/ic_favorite"
-                    android:layout_gravity="end"/>
+                    android:src="@drawable/ic_favorite" />
+
+                <ImageView
+                    android:id="@+id/catalog_item_favorite_filled"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_favorite_filled"/>
+
+                </ImageSwitcher>
 
         </androidx.cardview.widget.CardView>
 

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageSwitcher
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -47,6 +48,7 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
             val img = itemView.findViewById<ImageView>(R.id.catalog_item_img)
             val name = itemView.findViewById<TextView>(R.id.catalog_item_name)
             val rate = itemView.findViewById<TextView>(R.id.catalog_item_rate)
+            val bookmarkBtn = itemView.findViewById<ImageSwitcher>(R.id._catalog_item_fav_switcher)
 
             Glide.with(itemView.context)
                 .load(manga.img)
@@ -58,6 +60,8 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
                 val bundle: Bundle = bundleOf("url" to manga.url)
                 it.findNavController().navigate(R.id.descriptionFragment, bundle)
             }
+
+            bookmarkBtn.setOnClickListener { bookmarkBtn.showNext() }
         }
 
     }
