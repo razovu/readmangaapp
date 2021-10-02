@@ -1,35 +1,40 @@
 package com.example.readmangaapp.screens.catalog
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.readmangaapp.data.Manga
-import com.example.readmangaapp.data.manga.SiteContentParser
+import com.example.readmangaapp.data.MangaEntity
+import com.example.readmangaapp.data.manga.MangaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
-class CatalogViewModel @Inject constructor(): ViewModel() {
+class CatalogViewModel @Inject constructor(private val mangaRepository: MangaRepository): ViewModel() {
 
-    private val _manga: MutableLiveData<MutableList<Manga>> = MutableLiveData(mutableListOf())
-    val manga: LiveData<MutableList<Manga>> = _manga
+    private val _mangaList: MutableLiveData<MutableList<MangaEntity>> = MutableLiveData(mutableListOf())
+    val mangaList: LiveData<MutableList<MangaEntity>> = _mangaList
 
-    private var offSet: Int = -70
+
+    private var offset: Int = 0
 
     init {
         updateCatalogList()
     }
 
-
-    private fun updateCatalogList() {
-        offSet += 70
+    fun updateCatalogList() {
+        offset += 70
         viewModelScope.launch(Dispatchers.Default) {
-            val list = SiteContentParser().loadMangaList(offSet)
-            _manga.postValue((_manga.value?.plus(list)) as MutableList<Manga>?)
+            val list = mangaRepository.getCatalogList(offset)
+            _mangaList.postValue((_mangaList.value?.plus(list)) as MutableList<MangaEntity>?)
         }
 
     }
+
+    fun goFirstPage() { offset = 0 }
+
 }

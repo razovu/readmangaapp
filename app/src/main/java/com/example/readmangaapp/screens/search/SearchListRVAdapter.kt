@@ -1,4 +1,4 @@
-package com.example.readmangaapp.screens.catalog
+package com.example.readmangaapp.screens.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -16,7 +16,7 @@ import com.example.readmangaapp.R
 import com.example.readmangaapp.data.MangaEntity
 
 
-class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogViewHolder>() {
+class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.CatalogViewHolder>() {
 
     private val catalogList = mutableListOf<MangaEntity>()
 

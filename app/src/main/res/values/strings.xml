@@ -10,6 +10,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_search">Поиск</string>
     <string name="menu_catalog">Каталог</string>
@@ -19,4 +20,9 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</string>
     <string name="genres_str">Жанры</string>
     <string name="news">Новости</string>
+    <string name="goBack">Назад</string>
+    <string name="some_result_is_not_available">Некоторые результаты могут быть не доступны</string>
+    <string name="no_results">Видимо, ничего не найдено</string>
+    <string name="read_first_volume">Читать с первой главы</string>
+    <string name="in_favorites">В избранном</string>
 </resources>

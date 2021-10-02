@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Manga(
+data class MangaEntity(
     @PrimaryKey
     val url: String = "",
 
@@ -14,16 +14,20 @@ data class Manga(
 
     val description: String = "",
 
+    val descriptionImages: List<String> = listOf(),
+
     val volumes: String = "",
 
     val info: String = "",
 
-    val rate: String = "",     //type String cause it may be not rated
+    val rate: String = "not rated",     //type String cause it may be not rated
 
     val read: Boolean = false,
 
     val favorite: Boolean = false,
 
     val lastReadVolumeUrl: String = ""
-)
+) {
+
+}
 //data class Volume( val volName: String, val volUrl: String)
