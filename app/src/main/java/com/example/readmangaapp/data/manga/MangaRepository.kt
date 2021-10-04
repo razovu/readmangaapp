@@ -15,11 +15,15 @@ class MangaRepository @Inject constructor(private val siteContentParser: SiteCon
         return siteContentParser.searchManga(offset, query)
     }
 
-    suspend fun getMangaDescription(mangaLink: String): MangaEntity {
-        return siteContentParser.loadDescription(mangaLink)
+    suspend fun getMangaDescription(mangaUri: String): MangaEntity {
+        return siteContentParser.loadDescription(mangaUri)
     }
 
-    suspend fun getMangaVolumeList(mangaLink: String): List<VolumeEntity> {
-        return siteContentParser.loadMangaVolumeList(mangaLink)
+    suspend fun getMangaVolumeList(mangaUri: String): List<VolumeEntity> {
+        return siteContentParser.loadMangaVolumeList(mangaUri)
+    }
+
+    suspend fun getVolumePages() {
+
     }
 }

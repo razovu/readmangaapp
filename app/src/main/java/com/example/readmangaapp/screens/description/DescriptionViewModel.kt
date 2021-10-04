@@ -1,6 +1,5 @@
 package com.example.readmangaapp.screens.description
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DescriptionViewModel @Inject constructor(private val mangaRepository: MangaRepository): ViewModel() {
 
-    private var url = ""
+    private var _mangaUri = ""
 
     private val _mangaEntity = MutableLiveData<MangaEntity>()
     val mangaEntity = _mangaEntity
@@ -30,8 +29,8 @@ class DescriptionViewModel @Inject constructor(private val mangaRepository: Mang
     private fun getMangaEntity(){
 
         viewModelScope.launch(Dispatchers.Default) {
-            _mangaEntity.postValue(mangaRepository.getMangaDescription(url))
-            _mangaVolumeList.postValue(mangaRepository.getMangaVolumeList(url))
+            _mangaEntity.postValue(mangaRepository.getMangaDescription(_mangaUri))
+            _mangaVolumeList.postValue(mangaRepository.getMangaVolumeList(_mangaUri))
         }
     }
 
@@ -40,7 +39,8 @@ class DescriptionViewModel @Inject constructor(private val mangaRepository: Mang
         if (!_mangaVolumeList.value.isNullOrEmpty()) {
             _mangaVolumeList.value!!.forEach { volumeList.add(it.volName) }
         }
-        return volumeList.toTypedArray()
+        return volumeList.reversed().toTypedArray()
     }
-    fun getMangaLink(mangaLink: String?) { url = mangaLink ?: "" }
+    fun setMangaUri(mangaUri: String?) { _mangaUri = mangaUri ?: "" }
+    fun getMangaUri(): String = _mangaUri
 }

@@ -1,5 +1,6 @@
 package com.example.readmangaapp.data
 
+import android.util.Log
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -87,7 +88,7 @@ class SiteContentParser @Inject constructor() {
         )
     }
 
-    fun loadMangaVolumeList(mangaLink: String): MutableList<VolumeEntity> {
+    fun loadMangaVolumeList(mangaLink: String): List<VolumeEntity> {
 
         val url = baseUrl + mangaLink
         val mangaVolumeList = mutableListOf<VolumeEntity>()
@@ -115,7 +116,10 @@ class SiteContentParser @Inject constructor() {
                 )
             )
         }
-        return mangaVolumeList
+        /*  Тут есть неочевидность. Парсим главы с последней и до первой,
+         т.е. mangaVolumeList.last() это первая глава, что не логично!
+         Поэтому мы ее перевворачиваем по логике вещей  */
+        return mangaVolumeList.reversed()
     }
 
     fun loadMangaPages(volLink: String): MutableList<String> {
