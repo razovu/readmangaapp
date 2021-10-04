@@ -1,9 +1,9 @@
 package com.example.readmangaapp.data
 
-import android.util.Log
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONArray
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.IOException
@@ -76,12 +76,67 @@ class SiteContentParser @Inject constructor() {
         val mangaInfo = doc.select(".col-sm-7").select(".subject-meta").select("p").eachText()
         val mangaTitle = doc.selectFirst(".name")?.text() ?: ""
 
+        //Убираем теги и популярность из информации о манге
+        val mangaInfoMapped = mangaInfo.filterNot { it.contains("Теги:") }.dropLast(1)
+
         return MangaEntity(
             descriptionImages = mangaImages,
-            info = mangaInfo.joinToString("\n"),
+            info = mangaInfoMapped.joinToString("\n"),
             description = mangaDesc,
             name = mangaTitle
         )
+    }
+
+    fun loadMangaVolumeList(mangaLink: String): MutableList<VolumeEntity> {
+
+        val url = baseUrl + mangaLink
+        val mangaVolumeList = mutableListOf<VolumeEntity>()
+        val volNames = mutableListOf<String>()
+        val volLinks = mutableListOf<String>()
+
+        val doc = getDocument(url)
+        val mangaTitle = doc.selectFirst(".name")?.text() ?: ""
+        val element = doc.select(".expandable.chapters-link")
+
+        element.select("a[href]")
+            .forEach { volNames.add(it.text()) }
+
+        element.select("a")
+            .eachAttr("href")
+            .map { volLinks.add(it.toString()) }
+
+        //Каждая глава содержит название тайтла перед названием главы
+        //Сразу укоротим, убрав название тайтла перед номером главы
+        for (i in 0 until volNames.size) {
+            mangaVolumeList.add(
+                VolumeEntity(
+                    volName = volNames[i].substringAfter(mangaTitle).trim(),
+                    volUrl = volLinks[i]
+                )
+            )
+        }
+        return mangaVolumeList
+    }
+
+    fun loadMangaPages(volLink: String): MutableList<String> {
+        val imageList = mutableListOf<String>()
+        val url = baseUrl + volLink + adultPrefix
+        val doc = getDocument(url)
+
+        //Тут ссылочки запакованы в суперстранный json4ик поэтому ручками распакуем
+        val lineLinks = doc.data()
+            .substringAfter("rm_h.init( ")
+            .substringBefore(", 0, false);")
+            .replace("manga/", "")
+
+        // Получили 3 эелемента (2 ссылки на сервер и 1 ссылка на пикчу)
+        for (index in 0 until JSONArray(lineLinks).length()) {
+            val tempList = JSONArray(lineLinks).getJSONArray(index)
+            val link = tempList.get(0).toString() + tempList.get(2).toString()
+
+            imageList.add(link)
+        }
+        return imageList
     }
 
     //На вход подаются параметры post запроса.

@@ -1,22 +1,13 @@
 package com.example.readmangaapp.screens.description
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageSwitcher
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.size.Scale
-import coil.transform.GrayscaleTransformation
-import coil.transform.RoundedCornersTransformation
 import com.example.readmangaapp.R
-import com.example.readmangaapp.data.MangaEntity
 
 
 class DescriptionViewPager2Adapter : RecyclerView.Adapter<DescriptionViewPager2Adapter.CatalogViewHolder>() {
@@ -25,7 +16,7 @@ class DescriptionViewPager2Adapter : RecyclerView.Adapter<DescriptionViewPager2A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogViewHolder {
         return CatalogViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.description_view_pager_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_description_view_pager, parent, false)
         )
     }
 

@@ -2,6 +2,7 @@ package com.example.readmangaapp.data.manga
 
 import com.example.readmangaapp.data.MangaEntity
 import com.example.readmangaapp.data.SiteContentParser
+import com.example.readmangaapp.data.VolumeEntity
 import javax.inject.Inject
 
 class MangaRepository @Inject constructor(private val siteContentParser: SiteContentParser) {
@@ -16,5 +17,9 @@ class MangaRepository @Inject constructor(private val siteContentParser: SiteCon
 
     suspend fun getMangaDescription(mangaLink: String): MangaEntity {
         return siteContentParser.loadDescription(mangaLink)
+    }
+
+    suspend fun getMangaVolumeList(mangaLink: String): List<VolumeEntity> {
+        return siteContentParser.loadMangaVolumeList(mangaLink)
     }
 }

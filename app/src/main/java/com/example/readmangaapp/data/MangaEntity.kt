@@ -16,8 +16,6 @@ data class MangaEntity(
 
     val descriptionImages: List<String> = listOf(),
 
-    val volumes: String = "",
-
     val info: String = "",
 
     val rate: String = "not rated",     //type String cause it may be not rated
@@ -27,7 +25,4 @@ data class MangaEntity(
     val favorite: Boolean = false,
 
     val lastReadVolumeUrl: String = ""
-) {
-
-}
-//data class Volume( val volName: String, val volUrl: String)
+)

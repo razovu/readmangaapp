@@ -53,7 +53,8 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
 
             img.load(mangaEntity.img)
             name.text = mangaEntity.name
-            rate.text = mangaEntity.rate?.substring(0..2)//получили 12значное число, так что укорачиваем
+            //в rate получим 12значное число, так что укорачиваем
+            rate.text = mangaEntity.rate.substring(0..2)
 
             itemView.setOnClickListener {
                 val bundle: Bundle = bundleOf("url" to mangaEntity.url)
