@@ -122,14 +122,14 @@ class SiteContentParser @Inject constructor() {
         return mangaVolumeList.reversed()
     }
 
-    fun loadMangaPages(volLink: String): MutableList<String> {
+    fun loadVolumePages(volumeUri: String): List<String> {
         val imageList = mutableListOf<String>()
-        val url = baseUrl + volLink + adultPrefix
+        val url = baseUrl + volumeUri + adultPrefix
         val doc = getDocument(url)
 
         //Тут ссылочки запакованы в суперстранный json4ик поэтому ручками распакуем
         val lineLinks = doc.data()
-            .substringAfter("rm_h.init( ")
+            .substringAfter("rm_h.initReader( [2,3], ")
             .substringBefore(", 0, false);")
             .replace("manga/", "")
 
@@ -140,6 +140,7 @@ class SiteContentParser @Inject constructor() {
 
             imageList.add(link)
         }
+        Log.e("imlist", imageList.joinToString("\n"))
         return imageList
     }
 

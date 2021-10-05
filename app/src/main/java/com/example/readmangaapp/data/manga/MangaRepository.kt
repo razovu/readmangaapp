@@ -23,7 +23,7 @@ class MangaRepository @Inject constructor(private val siteContentParser: SiteCon
         return siteContentParser.loadMangaVolumeList(mangaUri)
     }
 
-    suspend fun getVolumePages() {
-
+    suspend fun getVolumePages(volumeUri: String): List<String> {
+        return siteContentParser.loadVolumePages(volumeUri)
     }
 }
