@@ -54,12 +54,11 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
 
             img.load(mangaEntity.img)
             name.text = mangaEntity.name
-            //в rate получим 12значное число, так что укорачиваем
-            rate.text = mangaEntity.rate.substring(0..2)
+            rate.text = mangaEntity.rate
 
             itemView.setOnClickListener {
                 val bundle: Bundle = bundleOf(KEY_MANGA_URL to mangaEntity.url)
-                it.findNavController().navigate(R.id.descriptionFragment, bundle)
+                it.findNavController().navigate(R.id.action_catalogFragment_to_descriptionFragment, bundle)
             }
 
             bookmarkBtn.setOnClickListener { bookmarkBtn.showNext() }

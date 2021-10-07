@@ -2,6 +2,7 @@ package com.example.readmangaapp.screens.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.readmangaapp.R
+import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.example.readmangaapp.data.MangaEntity
 
 
@@ -53,11 +55,11 @@ class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.CatalogView
 
             img.load(mangaEntity.img)
             name.text = mangaEntity.name
-            rate.text = mangaEntity.rate?.substring(0..2)//получили 12значное число, так что укорачиваем
+            rate.text = mangaEntity.rate
 
             itemView.setOnClickListener {
-                val bundle: Bundle = bundleOf("url" to mangaEntity.url)
-                it.findNavController().navigate(R.id.descriptionFragment, bundle)
+                val bundle: Bundle = bundleOf(KEY_MANGA_URL to mangaEntity.url)
+                it.findNavController().navigate(R.id.action_searchFragment_to_descriptionFragment, bundle)
             }
 
             bookmarkBtn.setOnClickListener { bookmarkBtn.showNext() }

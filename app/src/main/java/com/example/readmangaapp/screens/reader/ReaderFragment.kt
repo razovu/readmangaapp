@@ -21,6 +21,20 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ReaderFragment : Fragment(R.layout.fragment_reader){
 
+    /** Варианты читалки
+     *
+     * [1] внедрить переключатели после последней/до первой страницы. Но например если юзер не хочет
+     * читать всякие послесловия и т.п. ему придется их промотать, что не удобно.
+     *
+     * [2] добавить переключатели и перемещаться между главами с их помощью
+     *
+     * [3] когда юзер на предпоследней сранице, начать загружать странички след главы
+     *     учитывая, есть ли он вообще. Получится бесшовное чтение. Но как тут быть
+     *     с предыдущей главой + неудобства 1го варианта
+     *
+     * Проще всего и даже логичнее использовать 2й вариант
+     * */
+
     //ViewModel & Adapter
     private val viewModel by viewModels<ReaderViewModel>()
     private lateinit var readerAdapter: ReaderViewPagerAdapter

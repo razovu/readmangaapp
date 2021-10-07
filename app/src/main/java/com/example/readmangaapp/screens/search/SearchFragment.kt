@@ -33,7 +33,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         catalogRecyclerView = view.findViewById(R.id.catalog_search_recycler_view)
         backBtn = view.findViewById(R.id.search_back_btn)
 
-        backBtn.setOnClickListener { it.findNavController().navigate(R.id.catalogFragment) }
+        backBtn.setOnClickListener { it.findNavController().navigateUp() }
 
         initRecyclerView()
         initSearchAction()

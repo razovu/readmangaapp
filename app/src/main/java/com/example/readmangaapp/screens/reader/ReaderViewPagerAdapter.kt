@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.viewpager.widget.PagerAdapter
 import com.example.readmangaapp.R
+import com.example.readmangaapp.utils.ProgressBIVIndicator
 import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.indicator.progresspie.ProgressPieIndicator
 import com.github.piasy.biv.view.BigImageView
@@ -17,6 +18,9 @@ import com.github.piasy.biv.view.BigImageView
 class ReaderViewPagerAdapter(private val context: Context) : PagerAdapter() {
 
     private val imgList = mutableListOf<String>()
+
+    //Предзагрузка страниц
+
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view == `object`
@@ -33,9 +37,11 @@ class ReaderViewPagerAdapter(private val context: Context) : PagerAdapter() {
     @SuppressLint("ClickableViewAccessibility")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
+        if (position < imgList.size) BigImageViewer.prefetch(Uri.parse(imgList[position]))
+
         val imgView = BigImageView(context)
         with(imgView) {
-            setProgressIndicator(ProgressPieIndicator())
+            setProgressIndicator(ProgressBIVIndicator())
             setOptimizeDisplay(true)
             setFailureImage(ContextCompat.getDrawable(context, R.drawable.logo_rm))
             setTapToRetry(true)

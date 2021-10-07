@@ -9,7 +9,7 @@ fun RecyclerView.addOnScrolledToEnd(onScrolledToEnd: () -> Unit) {
 
     this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-        private val VISIBLE_THRESHOLD = 5
+        private val VISIBLE_THRESHOLD = 2
         private var loading = true
         private var previousTotal = 0
 

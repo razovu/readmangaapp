@@ -1,6 +1,5 @@
 package com.example.readmangaapp.data
 
-import android.util.Log
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -21,6 +20,7 @@ class SiteContentParser @Inject constructor() {
     private val subSearch: String = "/search"
     private val subGenres: String = "/genres"
     private val offSetPrefix = "?offset="
+    private val newsPrefix = "/news/allnews"
 
     private val client: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(5, TimeUnit.SECONDS)
@@ -42,7 +42,17 @@ class SiteContentParser @Inject constructor() {
         }
     }
 
+    private fun rateFormat(rate: String): String {
+        return when (rate.length) {
+            0 -> "not rated"
+            1 -> rate
+            2 -> rate
+            3 -> rate
+            else -> rate.substring(0..2)
+        }
+    }
 
+    /** catalog list manga */
     fun loadCatalogList(offset: Int): MutableList<MangaEntity> {
         val listManga = mutableListOf<MangaEntity>()
 
@@ -60,13 +70,14 @@ class SiteContentParser @Inject constructor() {
                     img = linkImage,
                     name = ttl,
                     url = linkManga,
-                    rate = rate
+                    rate = rateFormat(rate)
                 )
             )
         }
         return listManga
     }
 
+    /** manga description */
     fun loadDescription(mangaLink: String): MangaEntity {
 
         val doc = getDocument(baseUrl + mangaLink)
@@ -88,6 +99,7 @@ class SiteContentParser @Inject constructor() {
         )
     }
 
+    /** manga volumes */
     fun loadMangaVolumeList(mangaLink: String): List<VolumeEntity> {
 
         val url = baseUrl + mangaLink
@@ -122,6 +134,7 @@ class SiteContentParser @Inject constructor() {
         return mangaVolumeList.reversed()
     }
 
+    /** manga volume pages */
     fun loadVolumePages(volumeUri: String): List<String> {
         val imageList = mutableListOf<String>()
         val url = baseUrl + volumeUri + adultPrefix
@@ -140,10 +153,10 @@ class SiteContentParser @Inject constructor() {
 
             imageList.add(link)
         }
-        Log.e("imlist", imageList.joinToString("\n"))
         return imageList
     }
 
+    /** search manga */
     //На вход подаются параметры post запроса.
     fun searchManga(paramOffsetSearch: Int, query: String): MutableList<MangaEntity> {
 
@@ -173,7 +186,7 @@ class SiteContentParser @Inject constructor() {
                         img = linkImage,
                         url = linkManga,
                         name = ttl,
-                        rate = rate
+                        rate = rateFormat(rate)
                     )
                 )
             }
@@ -183,5 +196,30 @@ class SiteContentParser @Inject constructor() {
         } catch (e: NullPointerException) {
             return listManga
         }
+    }
+
+    /**---- News -----*/
+    fun getNewsList(offset: Int): List<ReadMangaNewsEntity> {
+        val list = mutableListOf<ReadMangaNewsEntity>()
+        val doc = Jsoup.connect(baseUrl + newsPrefix + offSetPrefix + offset).get()
+        val element = doc.select("div#wrap").select(".news-tiles").select(".col-md-6")
+        println(element.size)
+        for (i in 0 until element.size) {
+            val postUrl = element.select("a").eq(i).attr("href")
+            val postImg = element.select("img").eq(i).attr("data-original")
+            val postTitle = element.select("img").eq(i).attr("title")
+            val postDesc = element.select(".desc").select(".news-summary").eq(i).text()
+            val postDate = element.select(".desc").select(".details").eq(i).text()
+            list.add(
+                ReadMangaNewsEntity(
+                    postUrl = postUrl,
+                    postDate = postDate,
+                    postImg = postImg,
+                    postTitle = postTitle,
+                    postDescription = postDesc
+                )
+            )
+        }
+        return list
     }
 }
