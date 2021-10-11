@@ -2,8 +2,8 @@ package com.example.readmangaapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.readmangaapp.data.manga.MangaDatabase
-import com.example.readmangaapp.data.profile.ProfileDao
+import com.example.readmangaapp.data.profile.local.MangaDatabase
+import com.example.readmangaapp.data.profile.local.ProfileDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

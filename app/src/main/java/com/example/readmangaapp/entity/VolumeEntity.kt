@@ -1,4 +1,4 @@
-package com.example.readmangaapp.data
+package com.example.readmangaapp.entity
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

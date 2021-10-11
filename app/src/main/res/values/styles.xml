@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="ToolBarWithNavigationBack">
+        <item name="navigationIcon" tools:ignore="PrivateResource">@drawable/abc_ic_ab_back_material</item>
+        <item name="fontFamily">@font/futura_demi</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
     <style name="DescriptionTitleName">
 
         <item name="android:textSize">28sp</item>

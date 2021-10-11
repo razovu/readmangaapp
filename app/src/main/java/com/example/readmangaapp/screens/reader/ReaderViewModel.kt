@@ -1,13 +1,12 @@
 package com.example.readmangaapp.screens.reader
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.readmangaapp.data.VolumeEntity
+import com.example.readmangaapp.common.THERE_IS_NO_NEXT_VOLUME
+import com.example.readmangaapp.common.THERE_IS_NO_PREV_VOLUME
+import com.example.readmangaapp.entity.VolumeEntity
 import com.example.readmangaapp.data.manga.MangaRepository
-import com.google.android.material.internal.ContextUtils.getActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +21,7 @@ class ReaderViewModel @Inject constructor(private val mangaRepository: MangaRepo
     private val _volumePages = MutableLiveData<List<String>>()
     val volumePages = _volumePages
 
+    //Закинули аргументы навигации из вью слоя
     fun setNavArgs(mangaUri: String, volumeList: List<VolumeEntity>, volumePosition: Int) {
         _mangaUri = mangaUri
         _volumeList = volumeList
@@ -30,13 +30,39 @@ class ReaderViewModel @Inject constructor(private val mangaRepository: MangaRepo
 
     fun loadVolumePages() {
         viewModelScope.launch(Dispatchers.Default) {
-            val currentVolumeUri = _volumeList[_currentVolumePosition]
-            _volumePages.postValue(mangaRepository.getVolumePages(currentVolumeUri.volUrl))
+            _volumePages.postValue(mangaRepository.getVolumePages(_volumeList[_currentVolumePosition].volUrl))
         }
     }
 
-    fun loadNextVolumePages() = _currentVolumePosition + 1
-    fun loadPreviousVolumePages() = _currentVolumePosition - 1
+    fun getCurrentVolumeName(): String = _volumeList[_currentVolumePosition].volName
+
+    fun getNextVolumeName(): String {
+        return if (_currentVolumePosition + 1 in _volumeList.indices) {
+            _volumeList[_currentVolumePosition + 1].volName
+        } else THERE_IS_NO_NEXT_VOLUME
+    }
+
+    fun getPreviousVolumeName(): String {
+        return if (_currentVolumePosition - 1 in _volumeList.indices) {
+            _volumeList[_currentVolumePosition - 1].volName
+        } else THERE_IS_NO_PREV_VOLUME
+    }
+
+    fun goToNextVolume() {
+        if (_currentVolumePosition + 1 in _volumeList.indices) {
+            _currentVolumePosition += 1
+            loadVolumePages()
+        }
+    }
+
+    fun goToPreviousVolume() {
+        if (_currentVolumePosition - 1 in _volumeList.indices) {
+            _currentVolumePosition -= 1
+            loadVolumePages()
+        }
+    }
 
 
 }
+
+

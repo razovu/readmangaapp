@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.readmangaapp.R
 import com.example.readmangaapp.common.KEY_MANGA_URL
-import com.example.readmangaapp.data.MangaEntity
+import com.example.readmangaapp.entity.MangaEntity
 
 
 class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogViewHolder>() {

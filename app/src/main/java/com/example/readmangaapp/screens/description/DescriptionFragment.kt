@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.readmangaapp.R
@@ -32,6 +34,7 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
     private lateinit var mangaUrl: String
 
     //Views
+    private lateinit var btnBack: ImageButton
     private lateinit var fab: Button
     private lateinit var titleName: TextView
     private lateinit var titleInfo: TextView
@@ -48,6 +51,7 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         mangaUrl = descViewModel.getMangaUri()
 
         //Views init
+        btnBack = view.findViewById(R.id.desc_navigate_back)
         fab = view.findViewById(R.id.fab_read)
         titleName = view.findViewById(R.id.desc_title_name)
         titleInfo = view.findViewById(R.id.desc_title_info)
@@ -55,6 +59,8 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         favoriteBtn = view.findViewById(R.id.desc_favorite_btn)
         titleImgPager = view.findViewById(R.id.desc_title_view_pager)
         dotsIndicator = view.findViewById(R.id.pager_dots_indicator)
+
+        btnBack.setOnClickListener { activity?.onBackPressed() }
 
         //Адаптер + привязываем индикатор к нему
         titleImgPager.adapter = titleImgViewPager2Adapter
@@ -107,7 +113,9 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
                 KEY_VOLUME_SELECTED to abs(position - volList.size + 1),
                 KEY_VOLUME_LIST to volList
             )
-            findNavController().navigate(R.id.readerFragment, bundle)
+            Navigation
+                .findNavController(requireActivity(), R.id.fragment_container)
+                .navigate(R.id.readerFragment, bundle)
         }
 
         val readFirstVolumeBtnClickListener = { _: DialogInterface, _: Int ->
@@ -116,7 +124,10 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
                 KEY_VOLUME_SELECTED to FIRST_VOLUME,
                 KEY_VOLUME_LIST to volList
             )
-            findNavController().navigate(R.id.readerFragment, bundle)
+
+            Navigation
+                .findNavController(requireActivity(), R.id.fragment_container)
+                .navigate(R.id.readerFragment, bundle)
         }
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.volume_list)

@@ -1,5 +1,9 @@
 package com.example.readmangaapp.data
 
+import android.util.Log
+import com.example.readmangaapp.entity.MangaEntity
+import com.example.readmangaapp.entity.ReadMangaNewsEntity
+import com.example.readmangaapp.entity.VolumeEntity
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -35,9 +39,10 @@ class SiteContentParser @Inject constructor() {
         return try {
             Jsoup.connect(url).timeout(10000).get()
         } catch (e: IOException) {
+            Log.e("e", "ioexeption")
             getDocument(url)
-
         } catch (e: SocketTimeoutException) {
+            Log.e("e", "socettimeout")
             getDocument(url)
         }
     }

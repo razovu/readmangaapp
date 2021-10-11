@@ -2,7 +2,6 @@ package com.example.readmangaapp.screens.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.readmangaapp.R
 import com.example.readmangaapp.common.KEY_MANGA_URL
-import com.example.readmangaapp.data.MangaEntity
+import com.example.readmangaapp.entity.MangaEntity
 
 
 class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.CatalogViewHolder>() {

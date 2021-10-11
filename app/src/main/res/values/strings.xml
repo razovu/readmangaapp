@@ -13,7 +13,9 @@
 
 
 
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="precent">%</string>
     <string name="menu_search">Поиск</string>
     <string name="menu_catalog">Каталог</string>
     <string name="menu_profile">Профиль</string>
@@ -32,4 +34,6 @@
     <string name="in_favorites">В избранном</string>
     <string name="go_read">Читать</string>
     <string name="volume_list">Список глав</string>
+    <string name="prev"><![CDATA[<-]]></string>
+    <string name="nextbtn"><![CDATA[->]]></string>
 </resources>

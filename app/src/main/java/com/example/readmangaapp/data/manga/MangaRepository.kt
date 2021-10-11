@@ -1,8 +1,8 @@
 package com.example.readmangaapp.data.manga
 
-import com.example.readmangaapp.data.MangaEntity
+import com.example.readmangaapp.entity.MangaEntity
 import com.example.readmangaapp.data.SiteContentParser
-import com.example.readmangaapp.data.VolumeEntity
+import com.example.readmangaapp.entity.VolumeEntity
 import javax.inject.Inject
 
 class MangaRepository @Inject constructor(private val siteContentParser: SiteContentParser) {

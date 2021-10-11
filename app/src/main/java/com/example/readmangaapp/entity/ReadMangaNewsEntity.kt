@@ -1,4 +1,4 @@
-package com.example.readmangaapp.data
+package com.example.readmangaapp.entity
 
 data class ReadMangaNewsEntity(
     val postUrl: String = "",

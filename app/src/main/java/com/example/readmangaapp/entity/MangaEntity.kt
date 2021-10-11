@@ -1,4 +1,4 @@
-package com.example.readmangaapp.data
+package com.example.readmangaapp.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

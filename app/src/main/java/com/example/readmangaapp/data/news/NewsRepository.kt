@@ -1,6 +1,6 @@
 package com.example.readmangaapp.data.news
 
-import com.example.readmangaapp.data.ReadMangaNewsEntity
+import com.example.readmangaapp.entity.ReadMangaNewsEntity
 import com.example.readmangaapp.data.SiteContentParser
 import javax.inject.Inject
 

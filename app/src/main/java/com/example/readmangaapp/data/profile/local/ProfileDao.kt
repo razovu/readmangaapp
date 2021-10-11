@@ -1,7 +1,7 @@
-package com.example.readmangaapp.data.profile
+package com.example.readmangaapp.data.profile.local
 
 import androidx.room.*
-import com.example.readmangaapp.data.MangaEntity
+import com.example.readmangaapp.entity.MangaEntity
 
 @Dao
 interface ProfileDao {

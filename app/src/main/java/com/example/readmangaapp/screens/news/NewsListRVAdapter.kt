@@ -1,21 +1,28 @@
 package com.example.readmangaapp.screens.news
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.view.LayoutInflater
-import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.RoundedCornersTransformation
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.readmangaapp.R
-import com.example.readmangaapp.data.ReadMangaNewsEntity
+import com.example.readmangaapp.entity.ReadMangaNewsEntity
+import androidx.core.content.ContextCompat.startActivity
 
 
-class NewsListRVAdapter : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolder>() {
+
+
+
+class NewsListRVAdapter(private val context: Context) : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolder>() {
 
     private val newsList = mutableListOf<ReadMangaNewsEntity>()
 
@@ -54,6 +61,15 @@ class NewsListRVAdapter : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolder>
             date.text = newsEntity.postDate
             description.text = newsEntity.postDescription
 
+//            itemView.setOnClickListener { openWebPage(newsEntity.postUrl) }
+
+        }
+
+        private fun openWebPage(url: String) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val title = "Выберите бразуер"
+            val chooser = Intent.createChooser(intent, title)
+            startActivity(context, chooser, null)
         }
 
     }
