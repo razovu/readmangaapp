@@ -7,18 +7,18 @@ import com.example.readmangaapp.entity.MangaEntity
 interface ProfileDao {
 
     @Query("SELECT * FROM MangaEntity")
-    fun getAll(): List<MangaEntity>
+    fun getAll(): List<MangaEntity>?
 
     @Query("SELECT * FROM MangaEntity WHERE read = :isRead")
-    fun getHistory(isRead: Boolean = true): List<MangaEntity>
+    fun getHistory(isRead: Boolean): List<MangaEntity>?
 
     @Query("SELECT * FROM MangaEntity WHERE url = :url")
-    fun getByMangaUrl(url: String): MangaEntity
+    fun getByMangaUrl(url: String): MangaEntity?
 
     @Query("SELECT * FROM MangaEntity WHERE favorite = :isFavorite")
-    fun getFavorites(isFavorite: Boolean = true): List<MangaEntity>
+    fun getFavorites(isFavorite: Boolean): List<MangaEntity>?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(mangaEntity: MangaEntity)
 
     @Update

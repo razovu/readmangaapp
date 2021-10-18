@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat.startActivity
 
 
 
-class NewsListRVAdapter(private val context: Context) : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolder>() {
+class NewsListRVAdapter() : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolder>() {
 
     private val newsList = mutableListOf<ReadMangaNewsEntity>()
 
@@ -65,12 +65,12 @@ class NewsListRVAdapter(private val context: Context) : RecyclerView.Adapter<New
 
         }
 
-        private fun openWebPage(url: String) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            val title = "Выберите бразуер"
-            val chooser = Intent.createChooser(intent, title)
-            startActivity(context, chooser, null)
-        }
+//        private fun openWebPage(url: String) {
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//            val title = "Выберите бразуер"
+//            val chooser = Intent.createChooser(intent, title)
+//            startActivity(context, chooser, null)
+//        }
 
     }
 }

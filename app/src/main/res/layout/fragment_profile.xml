@@ -6,10 +6,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".screens.profile.ProfileFragment">
 
-    <TextView
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/menu_profile" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_favorites"
+            android:text="@string/in_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_history"
+            android:text="@string/history"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"/>
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profile_rv"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

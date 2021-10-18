@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageSwitcher
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
@@ -17,17 +16,17 @@ import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.example.readmangaapp.entity.MangaEntity
 
 
-class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.CatalogViewHolder>() {
+class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.SearchViewHolder>() {
 
     private val catalogList = mutableListOf<MangaEntity>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogViewHolder {
-        return CatalogViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+        return SearchViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_catalog, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         holder.bind(catalogList[position])
     }
 
@@ -43,14 +42,13 @@ class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.CatalogView
 
 
 
-    inner class CatalogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(mangaEntity: MangaEntity) {
 
             val img = itemView.findViewById<ImageView>(R.id.catalog_item_img)
             val name = itemView.findViewById<TextView>(R.id.catalog_item_name)
             val rate = itemView.findViewById<TextView>(R.id.catalog_item_rate)
-            val bookmarkBtn = itemView.findViewById<ImageSwitcher>(R.id._catalog_item_fav_switcher)
 
             img.load(mangaEntity.img)
             name.text = mangaEntity.name
@@ -61,7 +59,6 @@ class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.CatalogView
                 it.findNavController().navigate(R.id.action_searchFragment_to_descriptionFragment, bundle)
             }
 
-            bookmarkBtn.setOnClickListener { bookmarkBtn.showNext() }
         }
 
     }

@@ -1,28 +1,42 @@
 package com.example.readmangaapp.entity
 
+import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity
 data class MangaEntity(
     @PrimaryKey
-    val url: String = "",
+    var url: String = "",
 
-    val img: String = "",
+    @ColumnInfo(defaultValue = "")
+    var img: String = "",
 
-    val name: String = "",
+    @ColumnInfo(defaultValue = "")
+    var name: String = "",
 
-    val description: String = "",
+    @ColumnInfo(defaultValue = "")
+    var description: String = "",
 
-    val descriptionImages: List<String> = listOf(),
+    @ColumnInfo(defaultValue = "")
+    var descriptionImages: List<String> = listOf(),
 
-    val info: String = "",
+    @ColumnInfo(defaultValue = "")
+    var info: String = "",
 
-    val rate: String = "not rated",     //type String cause it may be not rated
+    @ColumnInfo(defaultValue = "")
+    var rate: String = "not rated",
 
-    val read: Boolean = false,
+    @ColumnInfo(defaultValue = false.toString())
+    var read: Boolean = false,
 
-    val favorite: Boolean = false,
+    @ColumnInfo(defaultValue = false.toString())
+    var favorite: Boolean = false,
 
-    val lastReadVolumeUrl: String = ""
-)
+    @ColumnInfo(defaultValue = "")
+    var lastReadVolumeUrl: String = "",
+
+): Parcelable

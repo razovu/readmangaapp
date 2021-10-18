@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class NewsFragment: Fragment(R.layout.fragment_news) {
 
     private val viewModel by viewModels<NewsViewModel>()
-    private val adapter = NewsListRVAdapter(requireActivity().applicationContext)
+    private val adapter = NewsListRVAdapter()
 
     private lateinit var newsRecyclerView: RecyclerView
 

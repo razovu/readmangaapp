@@ -51,4 +51,5 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         searchBtn.setOnClickListener { it.findNavController().navigate(R.id.action_catalogFragment_to_searchFragment) }
     }
 
+
 }

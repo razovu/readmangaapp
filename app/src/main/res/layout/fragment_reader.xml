@@ -26,13 +26,15 @@
         android:layout_gravity="bottom"
         android:background="@drawable/desc_indicator_bg">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPrevVol"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="14dp"
             android:textSize="12sp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:cornerRadius="12dp"
             android:maxLines="2"
             android:ellipsize="end"
             android:text="@string/prev" />
@@ -45,12 +47,14 @@
             android:textAlignment="center"
             android:textSize="18sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNextVol"
             android:layout_width="140dp"
             android:textSize="12sp"
             android:maxLines="2"
             android:ellipsize="end"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:cornerRadius="12dp"
             android:layout_height="match_parent"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="14dp"
@@ -60,6 +64,7 @@
 
     <ImageButton
         android:id="@+id/fullscreen_btn"
+        android:background="@color/invisible"
         android:layout_gravity="end"
         android:src="@drawable/ic_fullscreen"
         android:layout_width="50dp"

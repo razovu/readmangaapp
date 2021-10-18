@@ -1,6 +1,5 @@
 package com.example.readmangaapp.data
 
-import android.util.Log
 import com.example.readmangaapp.entity.MangaEntity
 import com.example.readmangaapp.entity.ReadMangaNewsEntity
 import com.example.readmangaapp.entity.VolumeEntity
@@ -10,8 +9,6 @@ import okhttp3.Request
 import org.json.JSONArray
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import java.io.IOException
-import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -36,15 +33,10 @@ class SiteContentParser @Inject constructor() {
 
 
     private fun getDocument(url: String): Document {
-        return try {
-            Jsoup.connect(url).timeout(10000).get()
-        } catch (e: IOException) {
-            Log.e("e", "ioexeption")
-            getDocument(url)
-        } catch (e: SocketTimeoutException) {
-            Log.e("e", "socettimeout")
-            getDocument(url)
-        }
+        val req = Request.Builder().url(url).build()
+        val response = client.newCall(req).execute()
+        return Jsoup.parse(response.body()!!.string())
+//        return Jsoup.connect(url).timeout(10000).get()
     }
 
     private fun rateFormat(rate: String): String {

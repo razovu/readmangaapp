@@ -36,4 +36,5 @@
     <string name="volume_list">Список глав</string>
     <string name="prev"><![CDATA[<-]]></string>
     <string name="nextbtn"><![CDATA[->]]></string>
+    <string name="history">История</string>
 </resources>

@@ -3,6 +3,7 @@ package com.example.readmangaapp.screens.description
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -11,14 +12,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.readmangaapp.R
-import com.example.readmangaapp.common.FIRST_VOLUME
-import com.example.readmangaapp.common.KEY_MANGA_URL
-import com.example.readmangaapp.common.KEY_VOLUME_LIST
-import com.example.readmangaapp.common.KEY_VOLUME_SELECTED
+import com.example.readmangaapp.common.*
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
@@ -47,7 +43,7 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         super.onViewCreated(view, savedInstanceState)
 
         //Отправляем аргументы навигации во вьюмодель
-        descViewModel.setMangaUri(mangaUri = arguments?.getString(KEY_MANGA_URL))
+        descViewModel.setMangaUrl(mangaUrl = arguments?.getString(KEY_MANGA_URL))
         mangaUrl = descViewModel.getMangaUri()
 
         //Views init

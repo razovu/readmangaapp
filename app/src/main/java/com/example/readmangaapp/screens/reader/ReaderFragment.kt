@@ -1,6 +1,7 @@
 package com.example.readmangaapp.screens.reader
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -108,6 +109,7 @@ class ReaderFragment : Fragment(R.layout.fragment_reader){
         btnPreviousVolume.text = viewModel.getPreviousVolumeName()
 
         //Сеттим вьюпейджер
+        readerViewPager.setCurrentItem(0, false)
         readerAdapter.set(imageList)
         readerViewPager.offscreenPageLimit = 2
         readerViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -117,6 +119,7 @@ class ReaderFragment : Fragment(R.layout.fragment_reader){
             override fun onPageSelected(pos: Int) {
                 counterText = "${pos + 1} из ${imageList.size}"
                 pageCounter.text = counterText
+
             }
         })
     }

@@ -7,14 +7,17 @@ import com.example.readmangaapp.common.THERE_IS_NO_NEXT_VOLUME
 import com.example.readmangaapp.common.THERE_IS_NO_PREV_VOLUME
 import com.example.readmangaapp.entity.VolumeEntity
 import com.example.readmangaapp.data.manga.MangaRepository
+import com.example.readmangaapp.data.profile.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ReaderViewModel @Inject constructor(private val mangaRepository: MangaRepository) :
-    ViewModel() {
+class ReaderViewModel @Inject constructor(
+    private val mangaRepository: MangaRepository,
+    private val profileRepository: ProfileRepository ) : ViewModel() {
+
     private var _mangaUri = ""
     private var _volumeList = listOf<VolumeEntity>()
     private var _currentVolumePosition = 0
@@ -30,9 +33,12 @@ class ReaderViewModel @Inject constructor(private val mangaRepository: MangaRepo
 
     fun loadVolumePages() {
         viewModelScope.launch(Dispatchers.Default) {
-            _volumePages.postValue(mangaRepository.getVolumePages(_volumeList[_currentVolumePosition].volUrl))
+            val volumeUrl = _volumeList[_currentVolumePosition].volUrl
+            _volumePages.postValue(mangaRepository.getVolumePages(volumeUrl))
+            profileRepository.addToHistory(_mangaUri, volumeUrl)
         }
     }
+
 
     fun getCurrentVolumeName(): String = _volumeList[_currentVolumePosition].volName
 

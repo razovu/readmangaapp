@@ -99,7 +99,9 @@ class ReaderViewPager2Adapter() :
 
         fun rebind() = bind(imgUrl)
 
-        fun clear() = img.ssiv.recycle()
+        fun clear()  {
+            if(img.ssiv != null) img.ssiv.recycle()
+        }
 
         fun hasNoImage(): Boolean {
             val ssiv: SubsamplingScaleImageView? = img.ssiv
