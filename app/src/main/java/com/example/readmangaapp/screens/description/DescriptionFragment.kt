@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.example.readmangaapp.R
 import com.example.readmangaapp.common.*
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
@@ -75,6 +76,29 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
             titleDescription.text = it.description
         })
 
+        //кнопка "избранное"
+        descViewModel.isFavorite.observe(viewLifecycleOwner, {isFav ->
+            Log.e("isfav", isFav.toString())
+            if (isFav) {
+                favoriteBtn.load(R.drawable.ic_favorite_filled)
+            } else {
+                favoriteBtn.load(R.drawable.ic_favorite)
+            }
+
+            favoriteBtn.setOnClickListener {
+                if (isFav) {
+                    descViewModel.removeFromFavorites()
+                    favoriteBtn.load(R.drawable.ic_favorite)
+                } else {
+                    descViewModel.addToFavorite()
+                    favoriteBtn.load(R.drawable.ic_favorite_filled)
+                }
+            }
+        })
+
+
+
+
     /** Кнопка "Читать"
         Бывает такое, что у манги нет глав в соответствии с авторскими правами.
         Так что делаем проверку на их наличие. Если глав нет, то перехода на следующий экран
@@ -134,6 +158,7 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
 
 
     }
+
 
 
 }

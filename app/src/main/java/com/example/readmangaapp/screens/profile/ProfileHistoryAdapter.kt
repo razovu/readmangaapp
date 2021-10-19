@@ -6,19 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.readmangaapp.R
+import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.example.readmangaapp.entity.MangaEntity
 
 
 class ProfileHistoryAdapter : RecyclerView.Adapter<ProfileHistoryAdapter.ProfileViewHolder>() {
 
     private val mangaList = mutableListOf<MangaEntity>()
+    private var clickCallback: OnClickItemRecycler? = null
+
+    fun attachItemClickCallback(callback: OnClickItemRecycler) {
+        clickCallback = callback
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileViewHolder {
         return ProfileViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_profile, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_profile2, parent, false),
+            clickCallback
         )
     }
 
@@ -36,25 +45,29 @@ class ProfileHistoryAdapter : RecyclerView.Adapter<ProfileHistoryAdapter.Profile
     }
 
 
-
-
-    inner class ProfileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ProfileViewHolder(itemView: View,
+        private val clickItemRecycler: OnClickItemRecycler?) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(mangaEntity: MangaEntity) {
-            val img = itemView.findViewById<ImageView>(R.id.profile_item_img)
-            val name = itemView.findViewById<TextView>(R.id.profile_item_name)
-            val date = itemView.findViewById<TextView>(R.id.profile_item_date)
-            val favBtn = itemView.findViewById<ImageView>(R.id._profile_item_fav_btn)
+            val img = itemView.findViewById<ImageView>(R.id.item_profile_manga_img)
+            val name = itemView.findViewById<TextView>(R.id.item_profile_manga_name)
+            val date = itemView.findViewById<TextView>(R.id.item_profile_date)
+            val rate = itemView.findViewById<TextView>(R.id.item_profile_rate)
+            val lastVolumeName = itemView.findViewById<TextView>(R.id.item_profile_last_volume)
+            val favBtn = itemView.findViewById<ImageView>(R.id.item_profile_fav_btn)
 
             img.load(mangaEntity.img)
             name.text = mangaEntity.name
-            date.text = mangaEntity.rate
+            date.text = mangaEntity.lastReadTime
+            rate.text = mangaEntity.rate
+            lastVolumeName.text = mangaEntity.lastReadVolumeName
             if (mangaEntity.favorite) {
                 favBtn.load(R.drawable.ic_favorite_filled)
             } else {
                 favBtn.load(R.drawable.ic_favorite)
             }
-
+            favBtn.setOnClickListener { clickItemRecycler?.onClickFavBtn(mangaEntity.url) }
+            itemView.setOnClickListener { clickItemRecycler?.onItemClick(mangaEntity.url) }
         }
 
     }

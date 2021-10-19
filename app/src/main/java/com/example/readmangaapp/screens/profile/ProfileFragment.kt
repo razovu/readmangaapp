@@ -2,11 +2,15 @@ package com.example.readmangaapp.screens.profile
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readmangaapp.R
+import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,19 +30,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         recyclerView = view.findViewById(R.id.profile_rv)
         tabLayout = view.findViewById(R.id.tab_layout)
-        initRecyclerView()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             private val isHistoryTab = 1
             private val isFavoritesTab = 0
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.position) {
                     isHistoryTab -> setHistoryContent()
                     isFavoritesTab -> setFavoritesContent()
                 }
             }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
         setFavoritesContent()
 
@@ -48,23 +51,34 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun setHistoryContent() {
         profileViewModel.updateHistoryList()
-        recyclerView.adapter = historyAdapter
+        initHistoryRV()
+        historyAdapter.attachItemClickCallback(object : OnClickItemRecycler {
+            override fun onClickFavBtn(mangaUrl: String) {
+                profileViewModel.favBtnClickListener(mangaUrl)
+            }
+            override fun onItemClick(mangaUrl: String) {
+                Navigation
+                    .findNavController(requireActivity(), R.id.fragment_container_main).navigate(R.id.action_profileFragment_to_navigationCatalog)
+            }
+        })
         profileViewModel.historyList.observe(viewLifecycleOwner, { historyAdapter.set(it) })
     }
 
     private fun setFavoritesContent() {
         profileViewModel.updateFavoritesList()
-        recyclerView.adapter = favoritesAdapter
-        favoritesAdapter.attachFavBtnCallback(object : OnClickFavBtn {
-            override fun onClick(mangaUrl: String) {
+        initFavoritesRV()
+        favoritesAdapter.attachItemClickCallback(object : OnClickItemRecycler {
+            override fun onClickFavBtn(mangaUrl: String) {
                 profileViewModel.favBtnClickListener(mangaUrl)
             }
+
+            override fun onItemClick(mangaUrl: String) {}
         })
         profileViewModel.favoriteList.observe(viewLifecycleOwner, { favoritesAdapter.set(it) })
     }
 
-    // RecyclerView
-    private fun initRecyclerView() {
+    // Favorites RecyclerView
+    private fun initFavoritesRV() {
         //Определение ширины экрана и подсчета колонн
         val metrics = resources.displayMetrics
         val spanCount = (metrics.widthPixels / (115 * metrics.scaledDensity)).toInt()
@@ -72,5 +86,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         recyclerView.adapter = favoritesAdapter
         recyclerView.layoutManager = GridLayoutManager(activity, spanCount)
 
+    }
+
+    // History RecyclerView
+    private fun initHistoryRV() {
+        recyclerView.adapter = historyAdapter
+        recyclerView.layoutManager = LinearLayoutManager(activity)
     }
 }

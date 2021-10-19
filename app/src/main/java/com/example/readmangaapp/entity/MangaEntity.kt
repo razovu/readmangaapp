@@ -39,4 +39,10 @@ data class MangaEntity(
     @ColumnInfo(defaultValue = "")
     var lastReadVolumeUrl: String = "",
 
+    @ColumnInfo(defaultValue = "")
+    var lastReadVolumeName: String = "",
+
+    @ColumnInfo(defaultValue = "")
+    var lastReadTime: String = ""
+
 ): Parcelable

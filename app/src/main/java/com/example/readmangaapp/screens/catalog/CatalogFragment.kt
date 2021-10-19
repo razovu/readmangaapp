@@ -43,7 +43,10 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         catalogRecyclerView.addOnScrolledToEnd { catalogViewModel.updateCatalogList() }
 
         catalogViewModel.goFirstPage()
-        catalogViewModel.mangaList.observe(viewLifecycleOwner, { adapter.set(it) })
+        catalogViewModel.mangaList.observe(viewLifecycleOwner, {
+            adapter.set(it)
+            catalogRecyclerView.scheduleLayoutAnimation()
+        })
 
     }
 

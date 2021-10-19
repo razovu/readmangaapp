@@ -39,8 +39,14 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
 
     fun favBtnClickListener(mangaUrl: String) {
         viewModelScope.launch(Dispatchers.Default) {
-            profileRepository.removeFromFavorites(mangaUrl)
+            if (profileRepository.getByMangaUrl(mangaUrl).favorite){
+                profileRepository.removeFromFavorites(mangaUrl)
+            } else {
+                profileRepository.addToFavorites(mangaUrl)
+            }
+
             updateFavoritesList()
+            updateHistoryList()
         }
 
 

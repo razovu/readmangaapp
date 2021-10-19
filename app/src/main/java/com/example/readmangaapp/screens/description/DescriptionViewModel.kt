@@ -18,10 +18,13 @@ import javax.inject.Inject
 class DescriptionViewModel @Inject constructor(
     private val mangaRepository: MangaRepository,
     private val profileRepository: ProfileRepository
-    ): ViewModel() {
+) : ViewModel() {
 
     private val _mangaEntity = MutableLiveData<MangaEntity>()
     val mangaEntity = _mangaEntity
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite = _isFavorite
 
     private val _mangaVolumeList = MutableLiveData<List<VolumeEntity>>()
     val mangaVolumeList = _mangaVolumeList
@@ -32,23 +35,22 @@ class DescriptionViewModel @Inject constructor(
         getMangaEntity()
     }
 
-    private fun getMangaEntity(){
+    private fun getMangaEntity() {
 
         viewModelScope.launch(Dispatchers.Default) {
             val mangaDesc = mangaRepository.getMangaDescription(mangaUrl)
             val mangaVolumeList = mangaRepository.getMangaVolumeList(mangaUrl)
-
+            val isFav = profileRepository.getByMangaUrl(mangaUrl).favorite
 
             _mangaEntity.postValue(mangaDesc)
             _mangaVolumeList.postValue(mangaVolumeList)
-
-            profileRepository.addToFavorites(mangaUrl)
             profileRepository.descriptionUpdate(mangaDesc)
+            _isFavorite.postValue(isFav)
 
         }
     }
 
-    fun getVolumeNamesArray() : Array<String>{
+    fun getVolumeNamesArray(): Array<String> {
         val volumeList = mutableListOf<String>()
         if (!_mangaVolumeList.value.isNullOrEmpty()) {
             _mangaVolumeList.value!!.forEach { volumeList.add(it.volName) }
@@ -60,12 +62,18 @@ class DescriptionViewModel @Inject constructor(
         this.mangaUrl = mangaUrl ?: ""
     }
 
-    fun addToFavorites() {
-
+    fun addToFavorite() {
+        viewModelScope.launch(Dispatchers.Default) {
+            profileRepository.addToFavorites(mangaUrl)
+            _isFavorite.postValue(true)
+        }
     }
 
     fun removeFromFavorites() {
-
+        viewModelScope.launch(Dispatchers.Default) {
+            profileRepository.removeFromFavorites(mangaUrl)
+            _isFavorite.postValue(false)
+        }
     }
 
     fun getMangaUri(): String = mangaUrl

@@ -3,6 +3,9 @@ package com.example.readmangaapp.data.profile
 import android.util.Log
 import com.example.readmangaapp.data.profile.local.ProfileDao
 import com.example.readmangaapp.entity.MangaEntity
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(private val profileDao: ProfileDao) {
@@ -37,12 +40,15 @@ class ProfileRepository @Inject constructor(private val profileDao: ProfileDao) 
         }
     }
 
-    fun addToHistory(mangaUrl: String, lastReadVolumeUrl: String) {
+    fun addToHistory(mangaUrl: String, lastReadVolumeUrl: String, lastReadVolumeName: String) {
         val manga = profileDao.getByMangaUrl(mangaUrl)
         if (manga != null) {
+            manga.lastReadVolumeName = lastReadVolumeName
             manga.lastReadVolumeUrl = lastReadVolumeUrl
             manga.read = true
+            manga.lastReadTime = SimpleDateFormat("yyyy.MM.dd 'в' HH:mm").format(Date())
             profileDao.update(manga)
+            Log.e("date", manga.lastReadTime)
         }
     }
 

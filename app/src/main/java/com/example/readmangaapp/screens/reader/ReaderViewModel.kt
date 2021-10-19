@@ -11,6 +11,7 @@ import com.example.readmangaapp.data.profile.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,9 +34,9 @@ class ReaderViewModel @Inject constructor(
 
     fun loadVolumePages() {
         viewModelScope.launch(Dispatchers.Default) {
-            val volumeUrl = _volumeList[_currentVolumePosition].volUrl
-            _volumePages.postValue(mangaRepository.getVolumePages(volumeUrl))
-            profileRepository.addToHistory(_mangaUri, volumeUrl)
+            val currentVolume = _volumeList[_currentVolumePosition]
+            _volumePages.postValue(mangaRepository.getVolumePages(currentVolume.volUrl))
+            profileRepository.addToHistory(_mangaUri, currentVolume.volUrl, currentVolume.volName)
         }
     }
 

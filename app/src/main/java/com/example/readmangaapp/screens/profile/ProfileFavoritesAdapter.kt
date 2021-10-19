@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.readmangaapp.R
@@ -16,11 +15,12 @@ import com.example.readmangaapp.entity.MangaEntity
 class ProfileFavoritesAdapter : RecyclerView.Adapter<ProfileFavoritesAdapter.ProfileViewHolder>() {
 
     private val mangaList = mutableListOf<MangaEntity>()
-    private var clickCallback: OnClickFavBtn? = null
+    private var clickCallback: OnClickItemRecycler? = null
 
-    fun attachFavBtnCallback(callback: OnClickFavBtn) {
+    fun attachItemClickCallback(callback: OnClickItemRecycler) {
         clickCallback = callback
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileViewHolder {
         return ProfileViewHolder(
@@ -44,7 +44,7 @@ class ProfileFavoritesAdapter : RecyclerView.Adapter<ProfileFavoritesAdapter.Pro
 
 
 
-    inner class ProfileViewHolder(itemView: View, val clickFavBtn: OnClickFavBtn?) : RecyclerView.ViewHolder(itemView) {
+    inner class ProfileViewHolder(itemView: View, private val clickItemRecycler: OnClickItemRecycler?) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(mangaEntity: MangaEntity) {
             val img = itemView.findViewById<ImageView>(R.id.profile_item_img)
@@ -60,8 +60,7 @@ class ProfileFavoritesAdapter : RecyclerView.Adapter<ProfileFavoritesAdapter.Pro
             } else {
                 favBtn.load(R.drawable.ic_favorite)
             }
-            favBtn.setOnClickListener { clickFavBtn?.onClick(mangaEntity.url) }
-
+            favBtn.setOnClickListener { clickItemRecycler?.onClickFavBtn(mangaEntity.url) }
         }
 
     }
