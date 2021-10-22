@@ -18,7 +18,7 @@ interface ProfileDao {
     @Query("SELECT * FROM MangaEntity WHERE favorite = :isFavorite")
     fun getFavorites(isFavorite: Boolean): List<MangaEntity>?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(mangaEntity: MangaEntity)
 
     @Update

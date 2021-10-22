@@ -25,7 +25,7 @@ class MangaDataBaseModule {
         return Room.databaseBuilder(
             appContext,
             MangaDatabase::class.java,
-            "Manga"
+            "mangaentity"
         ).build()
     }
 }

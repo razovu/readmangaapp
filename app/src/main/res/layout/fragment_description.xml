@@ -121,5 +121,13 @@
         android:text="@string/go_read"
         app:layout_anchorGravity="bottom|end"/>
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/desc_progress_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

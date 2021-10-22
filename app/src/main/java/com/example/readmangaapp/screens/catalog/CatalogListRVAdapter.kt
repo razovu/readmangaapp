@@ -49,7 +49,7 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
             val name = itemView.findViewById<TextView>(R.id.catalog_item_name)
             val rate = itemView.findViewById<TextView>(R.id.catalog_item_rate)
 
-            img.load(mangaEntity.img)
+            img.load(mangaEntity.img) {crossfade(true)}
             name.text = mangaEntity.name
             rate.text = mangaEntity.rate
 

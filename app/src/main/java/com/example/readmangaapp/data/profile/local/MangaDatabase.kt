@@ -7,7 +7,7 @@ import com.example.readmangaapp.entity.MangaEntity
 import com.example.readmangaapp.utils.Converters
 
 @TypeConverters(Converters::class)
-@Database(entities = [MangaEntity::class], version = 1)
+@Database(entities = [MangaEntity::class], version = 2, exportSchema = true)
 abstract class MangaDatabase : RoomDatabase() {
     abstract fun profileDao(): ProfileDao
 }

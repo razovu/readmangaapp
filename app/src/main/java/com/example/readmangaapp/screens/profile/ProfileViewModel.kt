@@ -1,5 +1,6 @@
 package com.example.readmangaapp.screens.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,6 +25,7 @@ class ProfileViewModel @Inject constructor(private val profileRepository: Profil
     fun updateFavoritesList() {
         viewModelScope.launch(Dispatchers.Default) {
             val favList = profileRepository.getFavorites()
+            Log.e("db favorites", favList.size.toString())
             _favoriteList.postValue(favList as MutableList<MangaEntity>)
         }
 

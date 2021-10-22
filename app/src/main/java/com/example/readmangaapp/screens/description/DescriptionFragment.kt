@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -39,6 +40,7 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
     private lateinit var favoriteBtn: ImageButton
     private lateinit var titleImgPager: ViewPager2
     private lateinit var dotsIndicator: DotsIndicator
+    private lateinit var progressBar: ContentLoadingProgressBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,6 +58,7 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         favoriteBtn = view.findViewById(R.id.desc_favorite_btn)
         titleImgPager = view.findViewById(R.id.desc_title_view_pager)
         dotsIndicator = view.findViewById(R.id.pager_dots_indicator)
+        progressBar = view.findViewById(R.id.desc_progress_bar)
 
         btnBack.setOnClickListener { activity?.onBackPressed() }
 
@@ -63,10 +66,12 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         titleImgPager.adapter = titleImgViewPager2Adapter
         dotsIndicator.setViewPager2(titleImgPager)
 
+
         setContent()
     }
 
     private fun setContent() {
+        progressBar.show()
 
         //Подписываемся на изменения mangaEntity и наполняем вьюхи
         descViewModel.mangaEntity.observe(viewLifecycleOwner, {
@@ -74,11 +79,11 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
             titleName.text = it.name
             titleInfo.text = it.info
             titleDescription.text = it.description
+            progressBar.hide()
         })
 
         //кнопка "избранное"
         descViewModel.isFavorite.observe(viewLifecycleOwner, {isFav ->
-            Log.e("isfav", isFav.toString())
             if (isFav) {
                 favoriteBtn.load(R.drawable.ic_favorite_filled)
             } else {
