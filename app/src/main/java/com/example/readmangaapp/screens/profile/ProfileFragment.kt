@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readmangaapp.R
 import com.example.readmangaapp.common.KEY_MANGA_URL
+import com.example.readmangaapp.utils.OnClickItemRecycler
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,7 +59,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
             override fun onItemClick(mangaUrl: String) {
                 Navigation
-                    .findNavController(requireActivity(), R.id.fragment_container_main).navigate(R.id.action_profileFragment_to_navigationCatalog)
+                    .findNavController(requireActivity(), R.id.fragment_container)
+                    .navigate(R.id.descriptionFragment, bundleOf(KEY_MANGA_URL to mangaUrl))
             }
         })
         profileViewModel.historyList.observe(viewLifecycleOwner, { historyAdapter.set(it) })
@@ -71,8 +73,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             override fun onClickFavBtn(mangaUrl: String) {
                 profileViewModel.favBtnClickListener(mangaUrl)
             }
-
-            override fun onItemClick(mangaUrl: String) {}
+            override fun onItemClick(mangaUrl: String) {
+                Navigation
+                    .findNavController(requireActivity(), R.id.fragment_container)
+                    .navigate(R.id.descriptionFragment, bundleOf(KEY_MANGA_URL to mangaUrl))
+            }
         })
         profileViewModel.favoriteList.observe(viewLifecycleOwner, { favoritesAdapter.set(it) })
     }

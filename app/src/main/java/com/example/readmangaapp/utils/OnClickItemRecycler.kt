@@ -1,4 +1,4 @@
-package com.example.readmangaapp.screens.profile
+package com.example.readmangaapp.utils
 
 interface OnClickItemRecycler {
     fun onClickFavBtn(mangaUrl: String)

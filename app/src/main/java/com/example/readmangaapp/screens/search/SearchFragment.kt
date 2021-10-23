@@ -9,11 +9,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
+import androidx.core.view.size
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.example.readmangaapp.screens.catalog.CatalogListRVAdapter
+import com.example.readmangaapp.utils.OnClickItemRecycler
 
 
 @AndroidEntryPoint
@@ -48,6 +53,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         catalogRecyclerView.adapter = adapter
         catalogRecyclerView.layoutManager = GridLayoutManager(activity, spanCount)
+        adapter.attachItemClickCallback(object : OnClickItemRecycler {
+            override fun onClickFavBtn(mangaUrl: String) {}
+
+            override fun onItemClick(mangaUrl: String) {
+                Navigation
+                    .findNavController(requireActivity(), R.id.fragment_container)
+                    .navigate(R.id.descriptionFragment, bundleOf(KEY_MANGA_URL to mangaUrl))
+            }
+
+        })
 
         searchViewModel.mangaList.observe(viewLifecycleOwner, { adapter.set(it) })
 
@@ -55,17 +70,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     //Search
     private fun initSearchAction() {
-
-        searchView.requestFocus()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean = false
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchViewModel.goFirstPage()
-                searchViewModel.search(query = query?: "")
+                searchViewModel.search(query = query ?: "")
                 return false
             }
         })
+        searchView.requestFocus()
         searchView.showKeyboard()
+
     }
 
     //Show keyboard when fragment started

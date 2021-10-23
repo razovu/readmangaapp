@@ -13,4 +13,10 @@
         android:id="@+id/readerFragment"
         android:name="com.example.readmangaapp.screens.reader.ReaderFragment"
         android:label="ReaderFragment" />
+
+    <fragment
+        android:id="@+id/descriptionFragment"
+        android:name="com.example.readmangaapp.screens.description.DescriptionFragment"
+        android:label="DescriptionFragment">
+    </fragment>
 </navigation>

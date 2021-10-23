@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.readmangaapp.R
 import com.example.readmangaapp.entity.MangaEntity
+import com.example.readmangaapp.utils.OnClickItemRecycler
 
 
 class ProfileFavoritesAdapter : RecyclerView.Adapter<ProfileFavoritesAdapter.ProfileViewHolder>() {
@@ -61,6 +62,7 @@ class ProfileFavoritesAdapter : RecyclerView.Adapter<ProfileFavoritesAdapter.Pro
                 favBtn.load(R.drawable.ic_favorite)
             }
             favBtn.setOnClickListener { clickItemRecycler?.onClickFavBtn(mangaEntity.url) }
+            itemView.setOnClickListener { clickItemRecycler?.onItemClick(mangaEntity.url) }
         }
 
     }

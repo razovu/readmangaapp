@@ -16,16 +16,23 @@ import com.example.readmangaapp.R
 import com.example.readmangaapp.common.KEY_MANGA_ENTITY
 import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.example.readmangaapp.entity.MangaEntity
+import com.example.readmangaapp.utils.OnClickItemRecycler
 
 
 class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogViewHolder>() {
 
     private val catalogList = mutableListOf<MangaEntity>()
+    private var clickCallback: OnClickItemRecycler? = null
+
+    fun attachItemClickCallback(callback: OnClickItemRecycler) {
+        clickCallback = callback
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogViewHolder {
         return CatalogViewHolder(
-            itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_catalog, parent, false))
+            itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_catalog, parent, false),
+        clickCallback)
     }
 
     override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
@@ -41,7 +48,7 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
         this.notifyDataSetChanged()
     }
 
-    inner class CatalogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CatalogViewHolder(itemView: View, private val clickItemRecycler: OnClickItemRecycler?) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(mangaEntity: MangaEntity) {
 
@@ -54,8 +61,7 @@ class CatalogListRVAdapter : RecyclerView.Adapter<CatalogListRVAdapter.CatalogVi
             rate.text = mangaEntity.rate
 
             itemView.setOnClickListener {
-                val bundle: Bundle = bundleOf(KEY_MANGA_URL to mangaEntity.url)
-                if (mangaEntity.url.isNotEmpty()) it.findNavController().navigate(R.id.action_catalogFragment_to_descriptionFragment, bundle)
+                if (mangaEntity.url.isNotEmpty()) clickItemRecycler?.onItemClick(mangaEntity.url)
             }
 
         }

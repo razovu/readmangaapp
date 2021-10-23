@@ -17,18 +17,22 @@ import coil.load
 import com.example.readmangaapp.R
 import com.example.readmangaapp.entity.ReadMangaNewsEntity
 import androidx.core.content.ContextCompat.startActivity
+import com.example.readmangaapp.utils.OnClickItemRecycler
 
 
-
-
-
-class NewsListRVAdapter() : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolder>() {
+class NewsListRVAdapter : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolder>() {
 
     private val newsList = mutableListOf<ReadMangaNewsEntity>()
+    private var clickCallback: OnClickItemRecycler? = null
+
+    fun attachItemClickCallback(callback: OnClickItemRecycler) {
+        clickCallback = callback
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false),
+            clickCallback
         )
     }
 
@@ -46,7 +50,7 @@ class NewsListRVAdapter() : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolde
     }
 
 
-    inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class NewsViewHolder(itemView: View, private val clickItemRecycler: OnClickItemRecycler?) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(newsEntity: ReadMangaNewsEntity) {
 
@@ -61,16 +65,9 @@ class NewsListRVAdapter() : RecyclerView.Adapter<NewsListRVAdapter.NewsViewHolde
             date.text = newsEntity.postDate
             description.text = newsEntity.postDescription
 
-//            itemView.setOnClickListener { openWebPage(newsEntity.postUrl) }
+            itemView.setOnClickListener { clickItemRecycler?.onItemClick(newsEntity.postUrl) }
 
         }
-
-//        private fun openWebPage(url: String) {
-//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//            val title = "Выберите бразуер"
-//            val chooser = Intent.createChooser(intent, title)
-//            startActivity(context, chooser, null)
-//        }
 
     }
 }

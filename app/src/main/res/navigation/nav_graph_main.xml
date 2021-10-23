@@ -3,66 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/navigationCatalog">
+    app:startDestination="@id/catalogFragment">
 
-    <navigation
-        android:id="@+id/navigationCatalog"
-        app:startDestination="@id/catalogFragment">
+    <fragment
+        android:id="@+id/catalogFragment"
+        android:name="com.example.readmangaapp.screens.catalog.CatalogFragment"
+        android:label="CatalogFragment" />
 
-        <fragment
-            android:id="@+id/catalogFragment"
-            android:name="com.example.readmangaapp.screens.catalog.CatalogFragment"
-            android:label="CatalogFragment" >
-            <action
-                android:id="@+id/action_catalogFragment_to_descriptionFragment"
-                app:destination="@id/descriptionFragment" />
-            <action
-                android:id="@+id/action_catalogFragment_to_searchFragment"
-                app:destination="@id/searchFragment" />
-        </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.readmangaapp.screens.search.SearchFragment"
+        android:label="SearchFragment" />
 
-        <fragment
-            android:id="@+id/descriptionFragment"
-            android:name="com.example.readmangaapp.screens.description.DescriptionFragment"
-            android:label="DescriptionFragment">
-        </fragment>
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.example.readmangaapp.screens.news.NewsFragment"
+        android:label="NewsFragment" />
 
-        <fragment
-            android:id="@+id/searchFragment"
-            android:name="com.example.readmangaapp.screens.search.SearchFragment"
-            android:label="SearchFragment" >
-            <action
-                android:id="@+id/action_searchFragment_to_descriptionFragment"
-                app:destination="@id/descriptionFragment" />
-        </fragment>
-    </navigation>
-
-
-    <navigation
-        android:id="@+id/navigationNews"
-        app:startDestination="@id/newsFragment">
-
-        <fragment
-            android:id="@+id/newsFragment"
-            android:name="com.example.readmangaapp.screens.news.NewsFragment"
-            android:label="NewsFragment" />
-    </navigation>
-
-    <navigation
-        android:id="@+id/navigationProfile"
-        app:startDestination="@id/profileFragment">
-
-        <fragment
-            android:id="@+id/profileFragment"
-            android:name="com.example.readmangaapp.screens.profile.ProfileFragment"
-            android:label="fragment_profile"
-            tools:layout="@layout/fragment_profile">
-            <action
-                android:id="@+id/action_profileFragment_to_navigationCatalog"
-                app:destination="@id/navigationCatalog" />
-        </fragment>
-    </navigation>
-
-
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.readmangaapp.screens.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

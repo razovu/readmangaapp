@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.readmangaapp.R
-import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.example.readmangaapp.entity.MangaEntity
+import com.example.readmangaapp.utils.OnClickItemRecycler
 
 
 class ProfileHistoryAdapter : RecyclerView.Adapter<ProfileHistoryAdapter.ProfileViewHolder>() {

@@ -1,14 +1,16 @@
 package com.example.readmangaapp.data
 
+import android.os.Handler
+import android.util.Log
 import com.example.readmangaapp.entity.MangaEntity
 import com.example.readmangaapp.entity.ReadMangaNewsEntity
 import com.example.readmangaapp.entity.VolumeEntity
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import org.json.JSONArray
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.io.IOException
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -18,7 +20,7 @@ class SiteContentParser @Inject constructor() {
     private val baseUrl: String = "https://readmanga.io"
     private val catalogPrefix: String = "/list"
     private val adultPrefix: String = "?mtr=1"
-    private val subSearch: String = "/search"
+    private val subSearch: String = "/search/advanced"
     private val subGenres: String = "/genres"
     private val offSetPrefix = "?offset="
     private val newsPrefix = "/news/allnews"
@@ -33,10 +35,23 @@ class SiteContentParser @Inject constructor() {
 
 
     private fun getDocument(url: String): Document {
-        val req = Request.Builder().url(url).build()
-        val response = client.newCall(req).execute()
-        return Jsoup.parse(response.body()!!.string())
-//        return Jsoup.connect(url).timeout(10000).get()
+
+        return try {
+            val req = Request.Builder().url(url).build()
+            val response = client.newCall(req).execute()
+            Jsoup.parse(response.body()!!.string())
+        } catch (e: SocketTimeoutException) {
+            Log.e("socketTimeout", "true")
+            getDocument(url)
+        } catch (e: IOException){
+            Log.e("io", "true")
+            getDocument(url)
+        }catch (e: java.lang.NullPointerException){
+            Log.e("nullPointer", "true")
+            getDocument(url)
+        }
+
+
     }
 
     private fun rateFormat(rate: String): String {
@@ -168,7 +183,6 @@ class SiteContentParser @Inject constructor() {
         val doc = Jsoup.parse(response.body()!!.string())
 
         try {
-//            val element = doc.select("div[class=tile col-sm-6 ]")
             val element = doc.select("div#wrap").select(".tile")
 
             listManga.clear()
@@ -178,7 +192,7 @@ class SiteContentParser @Inject constructor() {
                 val linkImage = element.select("img[src]").eq(i).attr("data-original")
                 val linkManga = element.select("h3").select("a").eq(i).attr("href")
                 val rate = element.select(".star-rate").select(".rating").eq(i).attr("title")
-                if (ttl.isNotBlank()) listManga.add(
+                if (ttl.isNotEmpty()) listManga.add(
                     MangaEntity(
                         img = linkImage,
                         url = linkManga,
@@ -187,9 +201,7 @@ class SiteContentParser @Inject constructor() {
                     )
                 )
             }
-
             return listManga
-
         } catch (e: NullPointerException) {
             return listManga
         }
@@ -200,9 +212,9 @@ class SiteContentParser @Inject constructor() {
         val list = mutableListOf<ReadMangaNewsEntity>()
         val doc = Jsoup.connect(baseUrl + newsPrefix + offSetPrefix + offset).get()
         val element = doc.select("div#wrap").select(".news-tiles").select(".col-md-6")
-        println(element.size)
+
         for (i in 0 until element.size) {
-            val postUrl = element.select("a").eq(i).attr("href")
+            val postUrl = element.eq(i).select("a").attr("href")
             val postImg = element.select("img").eq(i).attr("data-original")
             val postTitle = element.select("img").eq(i).attr("title")
             val postDesc = element.select(".desc").select(".news-summary").eq(i).text()

@@ -2,6 +2,7 @@ package com.example.readmangaapp.screens.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +15,22 @@ import coil.load
 import com.example.readmangaapp.R
 import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.example.readmangaapp.entity.MangaEntity
+import com.example.readmangaapp.utils.OnClickItemRecycler
 
 
 class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.SearchViewHolder>() {
 
     private val catalogList = mutableListOf<MangaEntity>()
+    private var clickCallback: OnClickItemRecycler? = null
+
+    fun attachItemClickCallback(callback: OnClickItemRecycler) {
+        clickCallback = callback
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_catalog, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_catalog, parent, false),
+            clickCallback
         )
     }
 
@@ -42,7 +50,7 @@ class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.SearchViewH
 
 
 
-    inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class SearchViewHolder(itemView: View, private val clickItemRecycler: OnClickItemRecycler?) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(mangaEntity: MangaEntity) {
 
@@ -55,9 +63,8 @@ class SearchListRVAdapter : RecyclerView.Adapter<SearchListRVAdapter.SearchViewH
             rate.text = mangaEntity.rate
 
             itemView.setOnClickListener {
-                val bundle: Bundle = bundleOf(KEY_MANGA_URL to mangaEntity.url)
-                it.findNavController().navigate(R.id.action_searchFragment_to_descriptionFragment, bundle)
-            }
+                Log.e("pos search adapter", bindingAdapterPosition.toString())
+                clickItemRecycler?.onItemClick(mangaEntity.url)}
 
         }
 
