@@ -32,6 +32,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         recyclerView = view.findViewById(R.id.profile_rv)
         tabLayout = view.findViewById(R.id.tab_layout)
 
+        //Таб листенер
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             private val isHistoryTab = 1
             private val isFavoritesTab = 0
@@ -44,12 +45,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
             }
         })
+        //По дефолту выбираем таб "избранное"
         setFavoritesContent()
 
     }
 
 
-
+    //Сначала говорим вьюмодели, чтобы обновила лист, инитим ресайклер, ставим слушатели
+    //Избранное удаляет/добвляет в бд
+    //Итемклик отправляет нас в деталку(descriptionFragment)
     private fun setHistoryContent() {
         profileViewModel.updateHistoryList()
         initHistoryRV()

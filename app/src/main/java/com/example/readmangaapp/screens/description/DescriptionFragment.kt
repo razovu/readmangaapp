@@ -60,6 +60,7 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
         dotsIndicator = view.findViewById(R.id.pager_dots_indicator)
         progressBar = view.findViewById(R.id.desc_progress_bar)
 
+        //Кнопка назад
         btnBack.setOnClickListener { activity?.onBackPressed() }
 
         //Адаптер + привязываем индикатор к нему
@@ -84,12 +85,15 @@ class DescriptionFragment : Fragment(R.layout.fragment_description) {
 
         //кнопка "избранное"
         descViewModel.isFavorite.observe(viewLifecycleOwner, {isFav ->
+
+            //Если в избранном - то соответствующая иконка
             if (isFav) {
                 favoriteBtn.load(R.drawable.ic_favorite_filled)
             } else {
                 favoriteBtn.load(R.drawable.ic_favorite)
             }
 
+            //По нажатию добавляем/удаляем из избранных и меняем иконку
             favoriteBtn.setOnClickListener {
                 if (isFav) {
                     descViewModel.removeFromFavorites()

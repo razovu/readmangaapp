@@ -1,6 +1,6 @@
 package com.example.readmangaapp.entity
 
-data class ReadMangaNewsEntity(
+data class NewsEntity(
     val postUrl: String = "",
     val postImg: String = "",
     val postDate: String = "",

@@ -47,7 +47,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         catalogRecyclerView.layoutManager = GridLayoutManager(activity, spanCount)
         catalogRecyclerView.addOnScrolledToEnd { catalogViewModel.updateCatalogList() }
 
-        //Клик по итему в ресайклере -≥ переход в деталку
+        //Клик по итему в ресайклере -> переход в деталку
         adapter.attachItemClickCallback(object : OnClickItemRecycler {
 
             override fun onClickFavBtn(mangaUrl: String) {}

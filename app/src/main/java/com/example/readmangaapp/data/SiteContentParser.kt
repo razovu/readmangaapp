@@ -1,9 +1,8 @@
 package com.example.readmangaapp.data
 
-import android.os.Handler
 import android.util.Log
 import com.example.readmangaapp.entity.MangaEntity
-import com.example.readmangaapp.entity.ReadMangaNewsEntity
+import com.example.readmangaapp.entity.NewsEntity
 import com.example.readmangaapp.entity.VolumeEntity
 import okhttp3.*
 import org.json.JSONArray
@@ -208,8 +207,8 @@ class SiteContentParser @Inject constructor() {
     }
 
     /**---- News -----*/
-    fun getNewsList(offset: Int): List<ReadMangaNewsEntity> {
-        val list = mutableListOf<ReadMangaNewsEntity>()
+    fun getNewsList(offset: Int): List<NewsEntity> {
+        val list = mutableListOf<NewsEntity>()
         val doc = Jsoup.connect(baseUrl + newsPrefix + offSetPrefix + offset).get()
         val element = doc.select("div#wrap").select(".news-tiles").select(".col-md-6")
 
@@ -220,7 +219,7 @@ class SiteContentParser @Inject constructor() {
             val postDesc = element.select(".desc").select(".news-summary").eq(i).text()
             val postDate = element.select(".desc").select(".details").eq(i).text()
             list.add(
-                ReadMangaNewsEntity(
+                NewsEntity(
                     postUrl = postUrl,
                     postDate = postDate,
                     postImg = postImg,
