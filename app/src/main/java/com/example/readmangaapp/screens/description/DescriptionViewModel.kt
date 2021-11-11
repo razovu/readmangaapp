@@ -11,6 +11,7 @@ import com.example.readmangaapp.data.manga.MangaRepository
 import com.example.readmangaapp.data.profile.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,21 +42,12 @@ class DescriptionViewModel @Inject constructor(
             val mangaDesc = mangaRepository.getMangaDescription(mangaUrl)
             val mangaVolumeList = mangaRepository.getMangaVolumeList(mangaUrl)
             val isFav = profileRepository.getByMangaUrl(mangaUrl).favorite
+            val newEntity = profileRepository.descriptionUpdate(mangaDesc, mangaUrl)
 
-            _mangaEntity.postValue(mangaDesc)
             _mangaVolumeList.postValue(mangaVolumeList)
-            profileRepository.descriptionUpdate(mangaDesc)
+            _mangaEntity.postValue(newEntity)
             _isFavorite.postValue(isFav)
-
         }
-    }
-
-    fun getVolumeNamesArray(): Array<String> {
-        val volumeList = mutableListOf<String>()
-        if (!_mangaVolumeList.value.isNullOrEmpty()) {
-            _mangaVolumeList.value!!.forEach { volumeList.add(it.volName) }
-        }
-        return volumeList.reversed().toTypedArray()
     }
 
     fun setMangaUrl(mangaUrl: String?) {

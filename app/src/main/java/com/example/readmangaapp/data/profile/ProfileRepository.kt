@@ -1,5 +1,6 @@
 package com.example.readmangaapp.data.profile
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.readmangaapp.data.profile.local.ProfileDao
 import com.example.readmangaapp.entity.MangaEntity
@@ -10,49 +11,52 @@ import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(private val profileDao: ProfileDao) {
 
-    fun addToFavorites(mangaUrl: String){
-        val manga = profileDao.getByMangaUrl(mangaUrl)
-        if (manga != null) {
-            manga.favorite = true
-            profileDao.update(manga)
-        }
+    fun addToFavorites(mangaUrl: String) {
+        val manga = getByMangaUrl(mangaUrl)
+
+        manga.favorite = true
+        profileDao.update(manga)
     }
 
-    fun removeFromFavorites(mangaUrl: String){
-        val manga = profileDao.getByMangaUrl(mangaUrl)
-        if (manga != null) {
-            manga.favorite = false
-            profileDao.update(manga)
-        }
+    fun removeFromFavorites(mangaUrl: String) {
+        val manga = getByMangaUrl(mangaUrl)
+
+        manga.favorite = false
+        profileDao.update(manga)
     }
 
     fun getFavorites(): List<MangaEntity> {
         return profileDao.getFavorites(true) ?: listOf()
     }
 
-    fun descriptionUpdate(entity: MangaEntity){
-        val manga = profileDao.getByMangaUrl(entity.url)
-        if (manga != null) {
-            manga.info = entity.info
-            manga.descriptionImages = entity.descriptionImages
-            manga.description = entity.description
-            profileDao.update(manga)
-        }
+    fun descriptionUpdate(entity: MangaEntity, url: String): MangaEntity {
+        val manga = getByMangaUrl(url)
+
+        manga.info = entity.info
+        manga.descriptionImages = entity.descriptionImages
+        manga.description = entity.description
+        profileDao.update(manga)
+
+        return manga
     }
 
-    fun addToHistory(mangaUrl: String, lastReadVolumeUrl: String, lastReadVolumeName: String) {
-        val manga = profileDao.getByMangaUrl(mangaUrl)
-        if (manga != null) {
-            manga.lastReadVolumeName = lastReadVolumeName
-            manga.lastReadVolumeUrl = lastReadVolumeUrl
-            manga.read = true
-            manga.lastReadTime = SimpleDateFormat("yyyy.MM.dd 'в' HH:mm").format(Date())
-            profileDao.update(manga)
-            Log.e("date", manga.lastReadTime)
-        }
+    @SuppressLint("SimpleDateFormat")
+    fun addToHistory(mangaUrl: String, lastReadVolumeUrl: String, lastReadVolumeName: String, position: Int) {
+
+        val manga = getByMangaUrl(mangaUrl)
+        val posList = mutableListOf(position.toString()) + manga.readVolumesIndices
+        manga.lastReadVolumeName = lastReadVolumeName
+        manga.lastReadVolumeUrl = lastReadVolumeUrl
+        manga.read = true
+        manga.readVolumesIndices = posList.toMutableList()
+        manga.lastReadTime = SimpleDateFormat("yyyy.MM.dd 'в' HH:mm").format(Date())
+
+        profileDao.update(manga)
     }
 
-    fun getAll() : List<MangaEntity> {
+
+
+    fun getAll(): List<MangaEntity> {
         return profileDao.getAll() ?: listOf()
     }
 

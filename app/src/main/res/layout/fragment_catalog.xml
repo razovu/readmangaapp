@@ -25,6 +25,7 @@
 
         <Button
             android:id="@+id/catalog_filter"
+            android:visibility="invisible"
             android:layout_gravity="end"
             android:background="@color/invisible"
             android:drawableTop="@drawable/ic_filter"

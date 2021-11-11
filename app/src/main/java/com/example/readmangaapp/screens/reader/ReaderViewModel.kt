@@ -1,5 +1,6 @@
 package com.example.readmangaapp.screens.reader
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,7 +37,8 @@ class ReaderViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             val currentVolume = _volumeList[_currentVolumePosition]
             _volumePages.postValue(mangaRepository.getVolumePages(currentVolume.volUrl))
-            profileRepository.addToHistory(_mangaUri, currentVolume.volUrl, currentVolume.volName)
+            profileRepository.addToHistory(_mangaUri, currentVolume.volUrl, currentVolume.volName, _currentVolumePosition)
+            Log.e("check manga url", _mangaUri)
         }
     }
 
