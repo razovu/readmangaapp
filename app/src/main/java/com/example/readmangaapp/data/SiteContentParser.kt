@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.readmangaapp.entity.MangaEntity
 import com.example.readmangaapp.entity.NewsEntity
 import com.example.readmangaapp.entity.VolumeEntity
+import kotlinx.coroutines.delay
 import okhttp3.*
 import org.json.JSONArray
 import org.jsoup.Jsoup
@@ -33,7 +34,7 @@ class SiteContentParser @Inject constructor() {
         .build()
 
 
-    private fun getDocument(url: String): Document {
+    private suspend fun getDocument(url: String): Document {
 
         return try {
             val req = Request.Builder().url(url).build()
@@ -41,12 +42,15 @@ class SiteContentParser @Inject constructor() {
             Jsoup.parse(response.body()!!.string())
         } catch (e: SocketTimeoutException) {
             Log.e("socketTimeout", "true")
+            delay(5000)
             getDocument(url)
         } catch (e: IOException){
             Log.e("io", "true")
+            delay(5000)
             getDocument(url)
         }catch (e: java.lang.NullPointerException){
             Log.e("nullPointer", "true")
+            delay(5000)
             getDocument(url)
         }
 
@@ -64,7 +68,7 @@ class SiteContentParser @Inject constructor() {
     }
 
     /** catalog list manga */
-    fun loadCatalogList(offset: Int): MutableList<MangaEntity> {
+    suspend fun loadCatalogList(offset: Int): MutableList<MangaEntity> {
         val listManga = mutableListOf<MangaEntity>()
 
         val doc = getDocument(baseUrl + catalogPrefix + offSetPrefix + offset)
@@ -89,7 +93,7 @@ class SiteContentParser @Inject constructor() {
     }
 
     /** manga description */
-    fun loadDescription(mangaLink: String): MangaEntity {
+    suspend fun loadDescription(mangaLink: String): MangaEntity {
 
         val doc = getDocument(baseUrl + mangaLink)
         val element = doc.select(".expandable")
@@ -111,7 +115,7 @@ class SiteContentParser @Inject constructor() {
     }
 
     /** manga volumes */
-    fun loadMangaVolumeList(mangaLink: String): List<VolumeEntity> {
+    suspend fun loadMangaVolumeList(mangaLink: String): List<VolumeEntity> {
 
         val url = baseUrl + mangaLink
         val mangaVolumeList = mutableListOf<VolumeEntity>()
@@ -146,7 +150,7 @@ class SiteContentParser @Inject constructor() {
     }
 
     /** manga volume pages */
-    fun loadVolumePages(volumeUri: String): List<String> {
+    suspend fun loadVolumePages(volumeUri: String): List<String> {
         val imageList = mutableListOf<String>()
         val url = baseUrl + volumeUri + adultPrefix
         val doc = getDocument(url)
@@ -169,7 +173,7 @@ class SiteContentParser @Inject constructor() {
 
     /** search manga */
     //На вход подаются параметры post запроса.
-    fun searchManga(paramOffsetSearch: Int, query: String): MutableList<MangaEntity> {
+    suspend fun searchManga(paramOffsetSearch: Int, query: String): MutableList<MangaEntity> {
 
         val listManga = mutableListOf<MangaEntity>()
 
@@ -207,7 +211,7 @@ class SiteContentParser @Inject constructor() {
     }
 
     /**---- News -----*/
-    fun getNewsList(offset: Int): List<NewsEntity> {
+    suspend fun getNewsList(offset: Int): List<NewsEntity> {
         val list = mutableListOf<NewsEntity>()
         val doc = Jsoup.connect(baseUrl + newsPrefix + offSetPrefix + offset).get()
         val element = doc.select("div#wrap").select(".news-tiles").select(".col-md-6")

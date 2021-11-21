@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.readmangaapp.R
 import com.example.readmangaapp.common.KEY_MANGA_URL
 import com.example.readmangaapp.utils.OnClickItemRecycler
@@ -24,6 +25,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
 
     private lateinit var catalogRecyclerView: RecyclerView
     private lateinit var searchBtn: Button
+    private lateinit var refreshLayout: SwipeRefreshLayout
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,6 +33,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         //Views init
         catalogRecyclerView = view.findViewById(R.id.catalog_recycler_view)
         searchBtn = view.findViewById(R.id.catalog_search_btn)
+        refreshLayout = view.findViewById(R.id.refresh_layout)
 
         initRecyclerView()
         initSearchBtn()
@@ -46,6 +49,11 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         catalogRecyclerView.adapter = adapter
         catalogRecyclerView.layoutManager = GridLayoutManager(activity, spanCount)
         catalogRecyclerView.addOnScrolledToEnd { catalogViewModel.updateCatalogList() }
+        refreshLayout.setOnRefreshListener {
+            catalogViewModel.goFirstPage()
+            catalogViewModel.updateCatalogList()
+            refreshLayout.isRefreshing = false
+        }
 
         //Клик по итему в ресайклере -> переход в деталку
         adapter.attachItemClickCallback(object : OnClickItemRecycler {
@@ -60,7 +68,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         })
 
         catalogViewModel.goFirstPage()
-        catalogViewModel.mangaList.observe(viewLifecycleOwner, { adapter.set(it) })
+        catalogViewModel.mangaList.observe(viewLifecycleOwner, { adapter.set(it)} )
 
     }
 

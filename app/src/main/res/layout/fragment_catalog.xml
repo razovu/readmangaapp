@@ -35,6 +35,13 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp">
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
@@ -45,6 +52,8 @@
         android:clipChildren="true"
         android:clipToPadding="true"
         tools:listitem="@layout/item_catalog"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </FrameLayout>

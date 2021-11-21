@@ -18,21 +18,35 @@ class CatalogViewModel @Inject constructor(private val mangaRepository: MangaRep
     private val _mangaList: MutableLiveData<MutableList<MangaEntity>> = MutableLiveData(mutableListOf())
     val mangaList: LiveData<MutableList<MangaEntity>> = _mangaList
 
-
+    private var isLocalDataShown: Boolean = false
     private var offset: Int = 0
 
     init {
-        updateCatalogList()
+        showLocalCatalogList()
     }
 
+
     fun updateCatalogList() {
-        offset += 70
         viewModelScope.launch(Dispatchers.Default) {
             val list = mangaRepository.getCatalogList(offset)
             _mangaList.postValue((_mangaList.value?.plus(list)) as MutableList<MangaEntity>?)
             list.forEach { profileRepository.insert(it) }
+            offset += 70
         }
 
+    }
+
+    private fun showLocalCatalogList() {
+        isLocalDataShown = true
+        viewModelScope.launch(Dispatchers.Default) {
+            val list = profileRepository.getAll()
+            if (list.isNotEmpty()) {
+                _mangaList.postValue(list as MutableList<MangaEntity>)
+                offset = list.size
+            } else {
+                updateCatalogList()
+            }
+        }
     }
 
     fun goFirstPage() { offset = 0 }

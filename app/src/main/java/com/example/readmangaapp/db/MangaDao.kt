@@ -1,10 +1,10 @@
-package com.example.readmangaapp.data.profile.local
+package com.example.readmangaapp.db
 
 import androidx.room.*
 import com.example.readmangaapp.entity.MangaEntity
 
 @Dao
-interface ProfileDao {
+interface MangaDao {
 
     @Query("SELECT * FROM MangaEntity")
     fun getAll(): List<MangaEntity>?

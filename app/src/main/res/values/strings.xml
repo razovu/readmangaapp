@@ -39,4 +39,5 @@
     <string name="nextbtn"><![CDATA[->]]></string>
     <string name="history">История</string>
     <string name="continueRead">Продолжить читать</string>
+    <string name="refresh">Обновить</string>
 </resources>

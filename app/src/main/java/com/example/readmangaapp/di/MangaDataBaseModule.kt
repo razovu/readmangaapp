@@ -2,8 +2,8 @@ package com.example.readmangaapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.readmangaapp.data.profile.local.MangaDatabase
-import com.example.readmangaapp.data.profile.local.ProfileDao
+import com.example.readmangaapp.db.MangaDatabase
+import com.example.readmangaapp.db.MangaDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Module
 class MangaDataBaseModule {
     @Provides
-    fun provideProfileDao(mangaDataBase: MangaDatabase) : ProfileDao {
+    fun provideProfileDao(mangaDataBase: MangaDatabase) : MangaDao {
         return mangaDataBase.profileDao()
     }
 

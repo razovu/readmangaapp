@@ -1,32 +1,30 @@
 package com.example.readmangaapp.data.profile
 
 import android.annotation.SuppressLint
-import android.util.Log
-import com.example.readmangaapp.data.profile.local.ProfileDao
+import com.example.readmangaapp.db.MangaDao
 import com.example.readmangaapp.entity.MangaEntity
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class ProfileRepository @Inject constructor(private val profileDao: ProfileDao) {
+class ProfileRepository @Inject constructor(private val mangaDao: MangaDao) {
 
     fun addToFavorites(mangaUrl: String) {
         val manga = getByMangaUrl(mangaUrl)
 
         manga.favorite = true
-        profileDao.update(manga)
+        mangaDao.update(manga)
     }
 
     fun removeFromFavorites(mangaUrl: String) {
         val manga = getByMangaUrl(mangaUrl)
 
         manga.favorite = false
-        profileDao.update(manga)
+        mangaDao.update(manga)
     }
 
     fun getFavorites(): List<MangaEntity> {
-        return profileDao.getFavorites(true) ?: listOf()
+        return mangaDao.getFavorites(true) ?: listOf()
     }
 
     fun descriptionUpdate(entity: MangaEntity, url: String): MangaEntity {
@@ -35,7 +33,7 @@ class ProfileRepository @Inject constructor(private val profileDao: ProfileDao) 
         manga.info = entity.info
         manga.descriptionImages = entity.descriptionImages
         manga.description = entity.description
-        profileDao.update(manga)
+        mangaDao.update(manga)
 
         return manga
     }
@@ -51,33 +49,33 @@ class ProfileRepository @Inject constructor(private val profileDao: ProfileDao) 
         manga.readVolumesIndices = posList.toMutableList()
         manga.lastReadTime = SimpleDateFormat("yyyy.MM.dd 'в' HH:mm").format(Date())
 
-        profileDao.update(manga)
+        mangaDao.update(manga)
     }
 
 
 
     fun getAll(): List<MangaEntity> {
-        return profileDao.getAll() ?: listOf()
+        return mangaDao.getAll() ?: listOf()
     }
 
     fun getHistory(isRead: Boolean = true): List<MangaEntity> {
-        return profileDao.getHistory(isRead) ?: listOf()
+        return mangaDao.getHistory(isRead) ?: listOf()
     }
 
     fun getByMangaUrl(url: String): MangaEntity {
-        return profileDao.getByMangaUrl(url) ?: MangaEntity()
+        return mangaDao.getByMangaUrl(url) ?: MangaEntity()
     }
 
     fun insert(mangaEntity: MangaEntity) {
-        profileDao.insert(mangaEntity)
+        mangaDao.insert(mangaEntity)
     }
 
     fun update(mangaEntity: MangaEntity) {
-        profileDao.update(mangaEntity)
+        mangaDao.update(mangaEntity)
     }
 
     fun delete(mangaEntity: MangaEntity) {
-        profileDao.delete(mangaEntity)
+        mangaDao.delete(mangaEntity)
     }
 
 }
